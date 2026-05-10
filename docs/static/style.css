@@ -1,12 +1,20 @@
 :root {
+    /* Dark Mode Defaults */
     --bg-color: #0c0c0e;
     --card-bg: #161619;
     --text-primary: #f4f4f5;
     --text-secondary: #a1a1aa;
     --accent: #a78bfa;
-    --accent-hover: #8b5cf6;
     --navbar-bg: rgba(17, 17, 20, 0.9);
-    --anim-speed: 0.6s;
+}
+
+[data-theme='light'] {
+    --bg-color: #ffffff;
+    --card-bg: #f4f4f5;
+    --text-primary: #18181b;
+    --text-secondary: #52525b;
+    --accent: #7c3aed;
+    --navbar-bg: rgba(255, 255, 255, 0.9);
 }
 
 body {
@@ -78,6 +86,7 @@ nav {
     display: flex;
     align-items: center;
     margin: 0 1rem;
+    height: 36px;
 }
 
 .search-toggle-btn {
@@ -87,6 +96,10 @@ nav {
     cursor: pointer;
     font-size: 1.1rem;
     padding: 0 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: 0.3s;
 }
 
@@ -95,8 +108,7 @@ nav {
 .search-nav-form {
     position: absolute;
     right: 0;
-    top: 100%;
-    margin-top: 10px;
+    top: calc(100% + 10px);
     background: var(--navbar-bg);
     border: 1px solid var(--accent);
     border-radius: 12px;
@@ -119,9 +131,8 @@ nav {
     padding: 8px 12px;
     font-size: 0.9rem;
     width: 200px;
+    outline: none;
 }
-
-.search-input:focus { outline: none; }
 
 .social-nav {
     display: flex; gap: 1.2rem;
