@@ -101,6 +101,7 @@ class ThemeSettings(models.Model):
     
     # Brand Elements
     logo = models.ImageField(upload_to='logos/', blank=True, null=True, help_text="Upload a custom logo for the navigation bar")
+    favicon = models.ImageField(upload_to='favicons/', blank=True, null=True, help_text="Upload a custom browser icon (favicon)")
     
     # Animation Controls
     anim_speed = models.FloatField(default=0.6, help_text="Animation duration in seconds (e.g., 0.6)")

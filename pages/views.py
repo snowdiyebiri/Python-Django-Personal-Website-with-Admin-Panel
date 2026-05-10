@@ -8,13 +8,13 @@ def get_base_context(request):
     }
 
 def home(request):
-    featured_projects = Project.objects.all()[:3]
+    all_projects = Project.objects.all()
     skill_categories = SkillCategory.objects.all().prefetch_related('skills')
     hero = HeroContent.objects.filter(is_active=True).first()
     stats = Stat.objects.all()
     context = get_base_context(request)
     context.update({
-        'featured_projects': featured_projects,
+        'featured_projects': all_projects,
         'skill_categories': skill_categories,
         'hero': hero,
         'stats': stats,
