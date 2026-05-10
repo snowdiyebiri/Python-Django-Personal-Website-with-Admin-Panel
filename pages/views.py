@@ -47,3 +47,7 @@ def references_view(request):
         'references': references
     })
     return render(request, 'pages/references.html', context)
+
+def admin_preview_view(request):
+    context = get_base_context(request)
+    return render(request, 'pages/admin_preview.html', context)
