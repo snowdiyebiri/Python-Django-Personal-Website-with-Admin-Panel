@@ -85,11 +85,11 @@ nav {
     position: relative;
     display: flex;
     align-items: center;
-    margin: 0 1rem;
+    margin: 0 0.5rem;
     height: 36px;
 }
 
-.search-toggle-btn {
+.nav-btn {
     background: transparent;
     border: none;
     color: var(--accent);
@@ -103,7 +103,7 @@ nav {
     transition: 0.3s;
 }
 
-.search-toggle-btn:hover { color: #fff; }
+.nav-btn:hover { color: #fff; }
 
 .search-nav-form {
     position: absolute;
