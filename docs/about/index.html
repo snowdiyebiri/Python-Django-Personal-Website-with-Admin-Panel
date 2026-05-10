@@ -13,10 +13,6 @@
         // Prevent layout flicker by initializing in <head>
         const savedTheme = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
-        
-        const savedLang = localStorage.getItem('lang') || 'en';
-        document.documentElement.lang = savedLang;
-        document.body.classList.add('lang-' + savedLang);
     </script>
 
     <style>
@@ -31,12 +27,6 @@
             --anim-speed: 0.1s;
             
         }
-        
-        /* Language toggling via body class */
-        body.lang-en .lang-tr { display: none !important; }
-        body.lang-en .lang-en { display: inline !important; }
-        body.lang-tr .lang-en { display: none !important; }
-        body.lang-tr .lang-tr { display: inline !important; }
         
         /* Apply theme immediately to body */
         body[data-theme='light'] { --bg-color: #ffffff; --card-bg: #f4f4f5; --text-primary: #18181b; --text-secondary: #52525b; --accent: #7c3aed; --navbar-bg: rgba(255, 255, 255, 0.9); }
@@ -59,17 +49,14 @@
         </div>
         <div class="nav-content">
             <div class="nav-links">
-                <a href="../index.html"><span class="lang-en">Home</span><span class="lang-tr">Anasayfa</span></a>
-                <a href="../projects/index.html"><span class="lang-en">Projects</span><span class="lang-tr">Projeler</span></a>
-                <a href="../about/index.html"><span class="lang-en">About</span><span class="lang-tr">Hakkımda</span></a>
-                <a href="../references/index.html"><span class="lang-en">References</span><span class="lang-tr">Referanslar</span></a>
-                <a href="../contact/index.html"><span class="lang-en">Contact</span><span class="lang-tr">İletişim</span></a>
+                <a href="../index.html">Home</a>
+                <a href="../projects/index.html">Projects</a>
+                <a href="../about/index.html">About</a>
+                <a href="../references/index.html">References</a>
+                <a href="../contact/index.html">Contact</a>
             </div>
             
             <div class="search-nav-wrapper">
-                <button type="button" class="nav-btn" onclick="toggleLanguage()" id="lang-toggle">
-                    TR
-                </button>
                 <button type="button" class="nav-btn" onclick="toggleTheme()" id="theme-toggle">
                     <i class="fas fa-moon"></i>
                 </button>
@@ -82,26 +69,6 @@
             </div>
 
             <script>
-                function toggleLanguage() {
-                    const lang = localStorage.getItem('lang') === 'tr' ? 'en' : 'tr';
-                    localStorage.setItem('lang', lang);
-                    applyLanguage(lang);
-                }
-
-                function applyLanguage(lang) {
-                    document.documentElement.lang = lang;
-                    document.body.classList.remove('lang-en', 'lang-tr');
-                    document.body.classList.add('lang-' + lang);
-                    document.getElementById('lang-toggle').innerText = (lang === 'tr') ? 'EN' : 'TR';
-                    
-                    document.querySelectorAll('.lang-en').forEach(el => {
-                        el.style.display = (lang === 'en') ? 'inline' : 'none';
-                    });
-                    document.querySelectorAll('.lang-tr').forEach(el => {
-                        el.style.display = (lang === 'tr') ? 'inline' : 'none';
-                    });
-                }
-
                 function toggleTheme() {
                     const body = document.body;
                     const isLight = body.getAttribute('data-theme') === 'light';
@@ -115,10 +82,6 @@
                 document.body.setAttribute('data-theme', savedTheme);
                 document.getElementById('theme-toggle').innerHTML = savedTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
                 
-                // Initialize Language (Default to 'en')
-                const savedLang = localStorage.getItem('lang') || 'en';
-                applyLanguage(savedLang);
-
                 function toggleSearch() {
                     const form = document.getElementById('search-nav-form');
                     const input = document.getElementById('search-input');
