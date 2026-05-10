@@ -58,6 +58,12 @@
                 <a href="{% url 'references' %}">References</a>
                 <a href="{% url 'contact' %}">Contact</a>
             </div>
+            
+            <form action="{% url 'search' %}" method="get" class="search-nav-form">
+                <input type="text" name="q" placeholder="Search..." class="search-input">
+                <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+            </form>
+
             <div class="social-nav">
                 {% for link in social_links %}
                     <a href="{{ link.url }}" target="_blank" title="{{ link.platform }}">

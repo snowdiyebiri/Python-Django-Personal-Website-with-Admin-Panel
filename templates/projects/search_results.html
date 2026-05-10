@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section style="padding: 2rem 0;">
+    <h2 class="section-title">Search <span>Results</span></h2>
+    
+    {% if query %}
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+            Showing results for: <b style="color: var(--accent);">"{{ query }}"</b>
+        </p>
+        
+        {% if results %}
+            <div class="grid">
+                {% for project in results %}
+                <div class="glass-card">
+                    {% if project.image %}
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 1.5rem;">
+                    {% endif %}
+                    <h3 style="margin-top: 0; color: #fff;">{{ project.title }}</h3>
+                    <p style="color: var(--accent); font-weight: bold; font-size: 0.8rem;">{{ project.technology }}</p>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">{{ project.description|truncatewords:20 }}</p>
+                    <a href="{% url 'project_detail' project.pk %}" class="btn" style="padding: 0.6rem 1.5rem; font-size: 0.8rem;">Read More</a>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="glass-card" style="text-align: center; padding: 4rem;">
+                <i class="fas fa-search-minus" style="font-size: 3rem; color: var(--accent); opacity: 0.3; margin-bottom: 1rem;"></i>
+                <h3 style="color: #fff;">No results found</h3>
+                <p style="color: var(--text-secondary);">Try searching for different keywords or technologies.</p>
+                <a href="{% url 'project_index' %}" class="btn" style="margin-top: 1.5rem;">Browse All Projects</a>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="glass-card" style="text-align: center; padding: 4rem;">
+            <h3 style="color: #fff;">Please enter a search term</h3>
+            <form action="{% url 'search' %}" method="get" style="max-width: 500px; margin: 2rem auto;">
+                <input type="text" name="q" placeholder="Search projects..." class="form-control" style="width: 100%;">
+                <button type="submit" class="btn" style="margin-top: 1rem; width: 100%;">Search</button>
+            </form>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

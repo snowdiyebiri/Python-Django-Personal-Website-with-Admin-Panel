@@ -7,6 +7,7 @@ A professional, high-performance personal portfolio website built with **Django 
 ## ✨ Key Features
 
 - **🎨 Dynamic Theme Engine:** Change your entire site's look (colors, background patterns, animations) via the Admin Panel.
+- **🔍 Global Search:** Filter projects and content using dynamic search with Django `Q` objects.
 - **🖼️ Logo & Favicon Support:** Upload your custom branding directly through the theme settings.
 - **📱 Responsive Hero Section:** Interactive project stack and cycling professional titles.
 - **📂 Automated Project Showcase:** All your projects are automatically synced and displayed in the hero and project sections.
@@ -53,7 +54,8 @@ This project includes a built-in static crawler to export your dynamic Django si
 2. Generate static files: `python generate_static.py`
 3. Push the `docs/` folder to GitHub and set your Pages source to `/docs`.
 
-## 📁 Project Architecture
+*Note: Search and Contact form functionality require the Django backend and will not process data in the static version.*
+
 
 - `config/`: System core & security settings.
 - `projects/`: The engine behind projects, themes, and branding.
