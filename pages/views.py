@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from projects.models import Project, SkillCategory, HeroContent, AboutContent, Stat, SocialLink, ThemeSettings
+from projects.models import Project, SkillCategory, HeroContent, AboutContent, Stat, SocialLink, ThemeSettings, Reference
 
 def get_base_context(request):
     return {
@@ -13,11 +13,16 @@ def home(request):
     skill_categories = SkillCategory.objects.all().prefetch_related('skills')
     hero = HeroContent.objects.filter(is_active=True).first()
     stats = Stat.objects.all()
+    references = Reference.objects.all()
+    reference_count = references.count()
     
-    # Dynamically update the Projects stat if it exists
+    # Dynamically update stats
     for stat in stats:
-        if 'project' in stat.label.lower():
+        label_lower = stat.label.lower()
+        if 'project' in label_lower:
             stat.value = f"{project_count}+" if project_count > 0 else "0"
+        elif 'client' in label_lower or 'reference' in label_lower:
+            stat.value = f"{reference_count}+" if reference_count > 0 else "0"
 
     context = get_base_context(request)
     context.update({
@@ -25,6 +30,7 @@ def home(request):
         'skill_categories': skill_categories,
         'hero': hero,
         'stats': stats,
+        'references': references,
     })
     return render(request, 'pages/home.html', context)
 

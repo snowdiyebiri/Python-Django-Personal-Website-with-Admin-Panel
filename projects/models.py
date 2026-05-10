@@ -76,6 +76,20 @@ class SocialLink(models.Model):
     def __str__(self):
         return self.platform
 
+class Reference(models.Model):
+    name = models.CharField(max_length=100)
+    position = models.CharField(max_length=100)
+    company = models.CharField(max_length=100)
+    testimonial = models.TextField()
+    image = models.ImageField(upload_to='references/', blank=True, null=True)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f"{self.name} from {self.company}"
+
 class ThemeSettings(models.Model):
     PATTERN_CHOICES = [
         ('none', 'Solid Color'),

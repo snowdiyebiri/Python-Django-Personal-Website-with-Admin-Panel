@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Project, SkillCategory, Skill, HeroContent, AboutContent, Stat, SocialLink, ThemeSettings
+from django import forms
+from .models import Project, SkillCategory, Skill, HeroContent, AboutContent, Stat, SocialLink, ThemeSettings, Reference
 
 class SkillInline(admin.TabularInline):
     model = Skill
@@ -8,9 +9,6 @@ class SkillInline(admin.TabularInline):
 class SkillCategoryAdmin(admin.ModelAdmin):
     inlines = [SkillInline]
     list_display = ('name', 'order')
-
-from django import forms
-from .models import Project, SkillCategory, Skill, HeroContent, AboutContent, Stat, SocialLink, ThemeSettings
 
 class ThemeSettingsForm(forms.ModelForm):
     class Meta:
@@ -26,6 +24,12 @@ class ThemeSettingsForm(forms.ModelForm):
 
 class ThemeSettingsAdmin(admin.ModelAdmin):
     form = ThemeSettingsForm
+
+@admin.register(Reference)
+class ReferenceAdmin(admin.ModelAdmin):
+    list_display = ('name', 'company', 'position', 'order')
+    list_editable = ('order',)
+    search_fields = ('name', 'company', 'testimonial')
 
 admin.site.register(Project)
 admin.site.register(SkillCategory, SkillCategoryAdmin)
