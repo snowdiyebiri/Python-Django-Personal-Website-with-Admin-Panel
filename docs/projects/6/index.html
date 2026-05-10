@@ -62,9 +62,13 @@
                 function applyLanguage(lang) {
                     document.documentElement.lang = lang;
                     document.getElementById('lang-toggle').innerText = lang === 'tr' ? 'EN' : 'TR';
-                    // Simple text toggle: look for elements with class 'lang-en' and 'lang-tr'
-                    document.querySelectorAll('.lang-en').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
-                    document.querySelectorAll('.lang-tr').forEach(el => el.style.display = lang === 'tr' ? '' : 'none');
+                    
+                    document.querySelectorAll('.lang-en').forEach(el => {
+                        el.style.display = (lang === 'en') ? 'inline' : 'none';
+                    });
+                    document.querySelectorAll('.lang-tr').forEach(el => {
+                        el.style.display = (lang === 'tr') ? 'inline' : 'none';
+                    });
                 }
 
                 function toggleTheme() {
