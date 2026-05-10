@@ -16,10 +16,9 @@
                 {% if ref.image %}
                 <img src="{{ ref.image.url }}" alt="{{ ref.name }}" class="author-img">
                 {% else %}
-                <div class="author-img-placeholder">{{ ref.name|slice:":1" }}</div>
+                <img src="https://i.pravatar.cc/150?u={{ ref.id }}" alt="{{ ref.name }}" class="author-img">
                 {% endif %}
-                <div class="author-info">
-                    <h4>{{ ref.name }}</h4>
+                <div class="author-info">                    <h4>{{ ref.name }}</h4>
                     <p>{{ ref.position }}, {{ ref.company }}</p>
                 </div>
             </div>
