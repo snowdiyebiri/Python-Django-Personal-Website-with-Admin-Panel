@@ -99,6 +99,9 @@ class ThemeSettings(models.Model):
     
     is_active = models.BooleanField(default=True)
     
+    # Brand Elements
+    logo = models.ImageField(upload_to='logos/', blank=True, null=True, help_text="Upload a custom logo for the navigation bar")
+    
     # Animation Controls
     anim_speed = models.FloatField(default=0.6, help_text="Animation duration in seconds (e.g., 0.6)")
     typing_speed = models.IntegerField(default=150, help_text="Typing speed in milliseconds (e.g., 150)")

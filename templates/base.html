@@ -39,7 +39,13 @@
     
     <nav>
         <div class="logo">
-            <a href="{% url 'home' %}">PORTFOLIO</a>
+            <a href="{% url 'home' %}">
+                {% if theme and theme.logo %}
+                    <img src="{{ theme.logo.url }}" alt="Logo" style="height: 40px; width: auto; object-fit: contain;">
+                {% else %}
+                    PORTFOLIO
+                {% endif %}
+            </a>
         </div>
         <div class="nav-content">
             <div class="nav-links">
