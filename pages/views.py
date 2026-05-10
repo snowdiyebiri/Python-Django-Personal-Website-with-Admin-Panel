@@ -13,8 +13,7 @@ def home(request):
     skill_categories = SkillCategory.objects.all().prefetch_related('skills')
     hero = HeroContent.objects.filter(is_active=True).first()
     stats = Stat.objects.all()
-    references = Reference.objects.all()
-    reference_count = references.count()
+    reference_count = Reference.objects.count()
     
     # Dynamically update stats
     for stat in stats:
@@ -30,7 +29,6 @@ def home(request):
         'skill_categories': skill_categories,
         'hero': hero,
         'stats': stats,
-        'references': references,
     })
     return render(request, 'pages/home.html', context)
 
@@ -41,3 +39,11 @@ def about(request):
         'about': about_content
     })
     return render(request, 'pages/about.html', context)
+
+def references_view(request):
+    references = Reference.objects.all()
+    context = get_base_context(request)
+    context.update({
+        'references': references
+    })
+    return render(request, 'pages/references.html', context)

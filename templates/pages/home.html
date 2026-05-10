@@ -64,30 +64,6 @@
         </div>
     </section>
 
-    <!-- 3. References (Testimonials) -->
-    <section id="references" style="padding: 4rem 0;">
-        <h2 class="section-title">Professional <span>References</span></h2>
-        <div class="testimonial-grid">
-            {% for ref in references %}
-            <div class="glass-card testimonial-card">
-                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                <p class="testimonial-text">"{{ ref.testimonial }}"</p>
-                <div class="testimonial-author">
-                    {% if ref.image %}
-                    <img src="{{ ref.image.url }}" alt="{{ ref.name }}" class="author-img">
-                    {% else %}
-                    <div class="author-img-placeholder">{{ ref.name|slice:":1" }}</div>
-                    {% endif %}
-                    <div class="author-info">
-                        <h4>{{ ref.name }}</h4>
-                        <p>{{ ref.position }}, {{ ref.company }}</p>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </section>
-
 </div>
 
 <script>

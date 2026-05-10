@@ -10,6 +10,7 @@ PATHS = [
     "about/",
     "projects/",
     "contact/",
+    "references/",
 ]
 
 # Add projects dynamically if possible, or use the known IDs

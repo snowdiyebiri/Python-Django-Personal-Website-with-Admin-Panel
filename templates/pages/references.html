@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section id="references" style="padding: 2rem 0;">
+    <h2 class="section-title">Professional <span>References</span></h2>
+    <p style="color: var(--text-secondary); margin-bottom: 3rem; max-width: 600px;">
+        Here are some testimonials and professional references from clients and colleagues I've had the pleasure of working with.
+    </p>
+    
+    <div class="testimonial-grid">
+        {% for ref in references %}
+        <div class="glass-card testimonial-card">
+            <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+            <p class="testimonial-text">"{{ ref.testimonial }}"</p>
+            <div class="testimonial-author">
+                {% if ref.image %}
+                <img src="{{ ref.image.url }}" alt="{{ ref.name }}" class="author-img">
+                {% else %}
+                <div class="author-img-placeholder">{{ ref.name|slice:":1" }}</div>
+                {% endif %}
+                <div class="author-info">
+                    <h4>{{ ref.name }}</h4>
+                    <p>{{ ref.position }}, {{ ref.company }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
