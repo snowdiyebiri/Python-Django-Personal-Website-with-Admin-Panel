@@ -38,6 +38,9 @@
             </div>
             
             <div class="search-nav-wrapper">
+                <button type="button" class="nav-btn" onclick="toggleLanguage()" id="lang-toggle">
+                    TR
+                </button>
                 <button type="button" class="nav-btn" onclick="toggleTheme()" id="theme-toggle">
                     <i class="fas fa-moon"></i>
                 </button>
@@ -50,6 +53,20 @@
             </div>
 
             <script>
+                function toggleLanguage() {
+                    const lang = localStorage.getItem('lang') === 'tr' ? 'en' : 'tr';
+                    localStorage.setItem('lang', lang);
+                    applyLanguage(lang);
+                }
+
+                function applyLanguage(lang) {
+                    document.documentElement.lang = lang;
+                    document.getElementById('lang-toggle').innerText = lang === 'tr' ? 'EN' : 'TR';
+                    // Simple text toggle: look for elements with class 'lang-en' and 'lang-tr'
+                    document.querySelectorAll('.lang-en').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
+                    document.querySelectorAll('.lang-tr').forEach(el => el.style.display = lang === 'tr' ? '' : 'none');
+                }
+
                 function toggleTheme() {
                     const body = document.body;
                     const isLight = body.getAttribute('data-theme') === 'light';
@@ -57,11 +74,15 @@
                     localStorage.setItem('theme', isLight ? 'dark' : 'light');
                     document.getElementById('theme-toggle').innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
                 }
-                // Initialize Theme
+                
+                // Initialize
                 const savedTheme = localStorage.getItem('theme') || 'dark';
                 document.body.setAttribute('data-theme', savedTheme);
                 document.getElementById('theme-toggle').innerHTML = savedTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
                 
+                const savedLang = localStorage.getItem('lang') || 'en';
+                applyLanguage(savedLang);
+
                 function toggleSearch() {
                     const form = document.getElementById('search-nav-form');
                     const input = document.getElementById('search-input');
