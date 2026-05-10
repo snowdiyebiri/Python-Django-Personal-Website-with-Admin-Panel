@@ -18,6 +18,7 @@
         
         const savedLang = localStorage.getItem('lang') || 'en';
         document.documentElement.lang = savedLang;
+        document.body.classList.add('lang-' + savedLang);
     </script>
 
     <style>
@@ -33,8 +34,11 @@
             {% endif %}
         }
         
-        /* Hide language elements until JS initializes to prevent flicker */
-        .lang-en, .lang-tr { display: none; }
+        /* Language toggling via body class */
+        body.lang-en .lang-tr { display: none !important; }
+        body.lang-en .lang-en { display: inline !important; }
+        body.lang-tr .lang-en { display: none !important; }
+        body.lang-tr .lang-tr { display: inline !important; }
         
         /* Apply theme immediately to body */
         body[data-theme='light'] { --bg-color: #ffffff; --card-bg: #f4f4f5; --text-primary: #18181b; --text-secondary: #52525b; --accent: #7c3aed; --navbar-bg: rgba(255, 255, 255, 0.9); }
@@ -100,6 +104,8 @@
 
                 function applyLanguage(lang) {
                     document.documentElement.lang = lang;
+                    document.body.classList.remove('lang-en', 'lang-tr');
+                    document.body.classList.add('lang-' + lang);
                     document.getElementById('lang-toggle').innerText = (lang === 'tr') ? 'EN' : 'TR';
                     
                     document.querySelectorAll('.lang-en').forEach(el => {
