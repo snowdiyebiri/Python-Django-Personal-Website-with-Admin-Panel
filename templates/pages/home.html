@@ -13,12 +13,12 @@
                 <span id="typewriter-text" style="color: var(--accent); font-weight: 800; border-right: 3px solid var(--accent); padding-right: 5px;"></span><br>
                 <span style="font-size: 1.1rem; opacity: 0.8;">{{ hero.description }}</span>
             </p>
-            <div class="hero-btns">
+            <div class="hero-btns" style="display: flex; gap: 1rem;">
                 <a href="{% url 'project_index' %}" class="btn">
                     <span class="lang-en">{{ hero.primary_cta_text }}</span>
                     <span class="lang-tr">Projeleri İncele</span>
                 </a>
-                <a href="{% url 'contact' %}" class="btn btn-outline" style="margin-left:10px;">
+                <a href="{% url 'contact' %}" class="btn btn-outline">
                     <span class="lang-en">{{ hero.secondary_cta_text }}</span>
                     <span class="lang-tr">İletişime Geç</span>
                 </a>
