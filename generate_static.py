@@ -21,26 +21,30 @@ for pid in PROJECT_IDS:
 
 def get_relative_prefix(path_str):
     if not path_str or path_str == "":
-        return ""
-    depth = path_str.strip("/").count("/") + 1
+        return "./"
+    depth = path_str.strip("/").count("/")
+    if depth == 0:
+        return "./"
     return "../" * depth
 
 def fix_links(html, current_path):
     prefix = get_relative_prefix(current_path)
-    # Fix static and media
-    html = html.replace('href="/static/', f'href="{prefix}static/')
-    html = html.replace('src="/static/', f'src="{prefix}static/')
-    html = html.replace('href="/media/', f'href="{prefix}media/')
-    html = html.replace('src="/media/', f'src="{prefix}media/')
+    # Ensure prefix doesn't have extra slashes
+    clean_prefix = prefix.replace("./", "")
+    
+    # Fix static and media links
+    html = html.replace('href="/static/', f'href="{clean_prefix}static/')
+    html = html.replace('src="/static/', f'src="{clean_prefix}static/')
+    html = html.replace('href="/media/', f'href="{clean_prefix}media/')
+    html = html.replace('src="/media/', f'src="{clean_prefix}media/')
     
     # Fix internal links
-    # This is a bit naive but should work for this project's simple URLs
     for p in PATHS:
         old_link = f'href="/{p}"'
-        new_link = f'href="{prefix}{p}index.html"'
+        new_link = f'href="{clean_prefix}{p}index.html"'
         if p == "":
              old_link = 'href="/"'
-             new_link = f'href="{prefix}index.html"'
+             new_link = f'href="{clean_prefix}index.html"'
         html = html.replace(old_link, new_link)
         
     return html
