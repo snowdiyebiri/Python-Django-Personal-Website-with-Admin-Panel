@@ -60,6 +60,9 @@
             </div>
             
             <div class="search-nav-wrapper">
+                <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
                 <button type="button" class="search-toggle-btn" onclick="toggleSearch()">
                     <i class="fas fa-search"></i>
                 </button>
@@ -69,6 +72,18 @@
             </div>
 
             <script>
+                function toggleTheme() {
+                    const body = document.body;
+                    const isLight = body.getAttribute('data-theme') === 'light';
+                    body.setAttribute('data-theme', isLight ? 'dark' : 'light');
+                    localStorage.setItem('theme', isLight ? 'dark' : 'light');
+                    document.getElementById('theme-toggle').innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+                }
+                // Initialize Theme
+                const savedTheme = localStorage.getItem('theme') || 'dark';
+                document.body.setAttribute('data-theme', savedTheme);
+                document.getElementById('theme-toggle').innerHTML = savedTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+                
                 function toggleSearch() {
                     const form = document.getElementById('search-nav-form');
                     const input = document.getElementById('search-input');
