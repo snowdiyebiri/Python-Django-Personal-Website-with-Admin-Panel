@@ -69,7 +69,7 @@
 
                 function applyLanguage(lang) {
                     document.documentElement.lang = lang;
-                    document.getElementById('lang-toggle').innerText = lang === 'tr' ? 'EN' : 'TR';
+                    document.getElementById('lang-toggle').innerText = (lang === 'tr') ? 'EN' : 'TR';
                     
                     document.querySelectorAll('.lang-en').forEach(el => {
                         el.style.display = (lang === 'en') ? 'inline' : 'none';
@@ -87,11 +87,12 @@
                     document.getElementById('theme-toggle').innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
                 }
                 
-                // Initialize
+                // Initialize Theme
                 const savedTheme = localStorage.getItem('theme') || 'dark';
                 document.body.setAttribute('data-theme', savedTheme);
                 document.getElementById('theme-toggle').innerHTML = savedTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
                 
+                // Initialize Language (Default to 'en')
                 const savedLang = localStorage.getItem('lang') || 'en';
                 applyLanguage(savedLang);
 
