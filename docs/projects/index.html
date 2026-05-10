@@ -8,15 +8,29 @@
     
     <link rel="stylesheet" href="../static/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <script>
+        // Prevent layout flicker by initializing in <head>
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        const savedLang = localStorage.getItem('lang') || 'en';
+        document.documentElement.lang = savedLang;
+    </script>
+
     <style>
         :root {
             
         }
         
+        /* Apply theme immediately to body */
+        body[data-theme='light'] { --bg-color: #ffffff; --card-bg: #f4f4f5; --text-primary: #18181b; --text-secondary: #52525b; --accent: #7c3aed; --navbar-bg: rgba(255, 255, 255, 0.9); }
+        
         
     </style>
 </head>
-<body class="">
+<body class="" data-theme="dark">
+    <script>document.body.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');</script>
     <div class="bg-fixed-img"></div>
     <div class="bg-overlay"></div>
     

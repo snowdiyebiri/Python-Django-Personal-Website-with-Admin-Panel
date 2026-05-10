@@ -8,15 +8,29 @@
     
     <link rel="stylesheet" href="../static/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <script>
+        // Prevent layout flicker by initializing in <head>
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        const savedLang = localStorage.getItem('lang') || 'en';
+        document.documentElement.lang = savedLang;
+    </script>
+
     <style>
         :root {
             
         }
         
+        /* Apply theme immediately to body */
+        body[data-theme='light'] { --bg-color: #ffffff; --card-bg: #f4f4f5; --text-primary: #18181b; --text-secondary: #52525b; --accent: #7c3aed; --navbar-bg: rgba(255, 255, 255, 0.9); }
+        
         
     </style>
 </head>
-<body class="">
+<body class="" data-theme="dark">
+    <script>document.body.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');</script>
     <div class="bg-fixed-img"></div>
     <div class="bg-overlay"></div>
     
@@ -115,7 +129,7 @@
         <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">Have a project in mind or just want to say hi? Drop me a message below and I'll get back to you as soon as possible.</p>
         
         <form method="POST">
-            <input type="hidden" name="csrfmiddlewaretoken" value="eeHrYljDVYRhaWkd214JoLH4YB2z9rgVuheFpgVTOqDtzHofNggSDqgRL9fVp2kU">
+            <input type="hidden" name="csrfmiddlewaretoken" value="scwCmBmyBwQChsk0Wyc3rnRS0LQdT26ZH6sbjDNlBkoHLNOIwBLr4R5Lowrtvvuq">
             
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <label style="font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px;">Name</label>
