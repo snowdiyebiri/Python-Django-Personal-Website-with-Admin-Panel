@@ -15,12 +15,10 @@
             </p>
             <div class="hero-btns" style="display: flex; gap: 1rem;">
                 <a href="{% url 'project_index' %}" class="btn">
-                    <span class="lang-en">{{ hero.primary_cta_text }}</span>
-                    <span class="lang-tr">Projeleri İncele</span>
+                    {{ hero.primary_cta_text }}
                 </a>
                 <a href="{% url 'contact' %}" class="btn btn-outline">
-                    <span class="lang-en">{{ hero.secondary_cta_text }}</span>
-                    <span class="lang-tr">İletişime Geç</span>
+                    {{ hero.secondary_cta_text }}
                 </a>
             </div>
             {% endif %}
