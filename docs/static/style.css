@@ -64,19 +64,9 @@ nav {
     z-index: 1000;
 }
 
-.logo a {
-    color: var(--text-primary);
-    text-decoration: none;
-    font-weight: 900;
-    font-size: 1.3rem;
-    letter-spacing: -1px;
-    background: linear-gradient(to right, #fff, var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.nav-content { display: flex; align-items: center; gap: 2rem; }
-.nav-links { display: flex; gap: 1.5rem; }
+.logo { flex-shrink: 0; }
+.nav-content { display: flex; align-items: center; gap: 1.5rem; flex-wrap: nowrap; }
+.nav-links { display: flex; gap: 1.5rem; flex-shrink: 0; }
 .nav-links a { color: var(--text-secondary); text-decoration: none; font-weight: 600; font-size: 0.85rem; transition: 0.3s; }
 .nav-links a:hover { color: var(--accent); }
 
@@ -85,8 +75,9 @@ nav {
     position: relative;
     display: flex;
     align-items: center;
-    margin: 0 0.5rem;
+    margin: 0;
     height: 36px;
+    flex-shrink: 0;
 }
 
 .nav-btn {
