@@ -37,10 +37,27 @@
                 <a href="../contact/index.html">Contact</a>
             </div>
             
-            <form action="/projects/search/" method="get" class="search-nav-form">
-                <input type="text" name="q" placeholder="Search..." class="search-input">
-                <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
-            </form>
+            <div class="search-nav-wrapper">
+                <button type="button" class="search-toggle-btn" onclick="toggleSearch()">
+                    <i class="fas fa-search"></i>
+                </button>
+                <form action="/projects/search/" method="get" class="search-nav-form" id="search-nav-form">
+                    <input type="text" name="q" placeholder="Search..." class="search-input" id="search-input">
+                </form>
+            </div>
+
+            <script>
+                function toggleSearch() {
+                    const form = document.getElementById('search-nav-form');
+                    const input = document.getElementById('search-input');
+                    form.classList.toggle('active');
+                    if (form.classList.contains('active')) {
+                        input.focus();
+                    }
+                }
+            </script>
+
+            <div class="social-nav">
 
             <div class="social-nav">
                 
