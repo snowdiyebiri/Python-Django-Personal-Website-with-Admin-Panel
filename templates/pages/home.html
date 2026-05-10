@@ -14,8 +14,14 @@
                 <span style="font-size: 1.1rem; opacity: 0.8;">{{ hero.description }}</span>
             </p>
             <div class="hero-btns">
-                <a href="{% url 'project_index' %}" class="btn">{{ hero.primary_cta_text }}</a>
-                <a href="{% url 'contact' %}" class="btn btn-outline" style="margin-left:10px;">{{ hero.secondary_cta_text }}</a>
+                <a href="{% url 'project_index' %}" class="btn">
+                    <span class="lang-en">{{ hero.primary_cta_text }}</span>
+                    <span class="lang-tr">Projeleri İncele</span>
+                </a>
+                <a href="{% url 'contact' %}" class="btn btn-outline" style="margin-left:10px;">
+                    <span class="lang-en">{{ hero.secondary_cta_text }}</span>
+                    <span class="lang-tr">İletişime Geç</span>
+                </a>
             </div>
             {% endif %}
         </div>
