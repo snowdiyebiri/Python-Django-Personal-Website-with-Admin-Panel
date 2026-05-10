@@ -1,0 +1,200 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static performance_tags %}
+
+{% block content %}
+<div class="admin-dashboard-container">
+    
+    <!-- 1. Top Performance Strip -->
+    {% get_performance_metrics as metrics %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <div class="dashboard-top-banner">
+        <div class="banner-card highlight-card">
+            <div class="mini-gauge"><canvas id="gaugeChart"></canvas></div>
+            <div class="card-info">
+                <span class="c-label">SYSTEM LOAD</span>
+                <span class="c-val">{{ metrics.cpu_usage }}% CPU</span>
+            </div>
+        </div>
+        <div class="banner-card stats-group">
+            <div class="s-item">
+                <span class="s-val">{{ metrics.db_size }} MB</span>
+                <span class="s-label">DATABASE</span>
+            </div>
+            <div class="s-item">
+                <span class="s-val">{{ metrics.project_count }}</span>
+                <span class="s-label">PROJECTS</span>
+            </div>
+            <div class="s-item">
+                <span class="s-val" style="color: #ff4d4d;">{{ metrics.unread_count }}</span>
+                <span class="s-label">UNREAD MSGS</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Two-Column Layout -->
+    <div class="dashboard-main-grid">
+        
+        <!-- Left: Core App Lists (MANUAL RENDERING) -->
+        <div class="app-list-section">
+            {% if app_list %}
+                {% for app in app_list %}
+                    <div class="module">
+                        <table style="width: 100%;">
+                            <caption>
+                                <a href="{{ app.app_url }}" class="section" title="{% blocktranslate with name=app.name %}Models in the {{ name }} application{% endblocktranslate %}">{{ app.name }}</a>
+                            </caption>
+                            {% for model in app.models %}
+                                <tr class="model-{{ model.object_name|lower }}">
+                                    {% if model.admin_url %}
+                                        <th scope="row"><a href="{{ model.admin_url }}">{{ model.name }}</a></th>
+                                    {% else %}
+                                        <th scope="row">{{ model.name }}</th>
+                                    {% endif %}
+
+                                    <td style="text-align: right;">
+                                        {% if model.add_url %}
+                                            <a href="{{ model.add_url }}" class="addlink">{% translate 'Add' %}</a>
+                                        {% endif %}
+                                        {% if model.admin_url %}
+                                            <a href="{{ model.admin_url }}" class="changelink">{% translate 'Change' %}</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>{% translate "You don't have permission to view or edit anything." %}</p>
+            {% endif %}
+        </div>
+
+        <!-- Right: Modern Control Panel -->
+        <div class="control-panel-section">
+            <!-- Quick Actions -->
+            <div class="panel-widget">
+                <h3 class="panel-header">⚡ QUICK ACTIONS</h3>
+                <div class="actions-grid">
+                    <a href="/admin/projects/project/add/" class="p-btn">+ NEW PROJECT</a>
+                    <a href="/admin/projects/skillcategory/add/" class="p-btn">+ NEW SKILL</a>
+                    <a href="/admin/projects/herocontent/1/change/" class="p-btn alt">✎ EDIT HERO</a>
+                    <a href="/" target="_blank" class="p-btn dark">👁 VIEW SITE</a>
+                </div>
+            </div>
+
+            <!-- Live Inbox -->
+            <div class="panel-widget live-border">
+                <h3 class="panel-header">📬 LIVE INBOX</h3>
+                <div id="live-messages-feed" class="live-messages-container">
+                    {% for msg in metrics.latest_messages %}
+                    <div class="msg-card">
+                        <div class="msg-top">
+                            <strong>{{ msg.name }}</strong>
+                            <span>{{ msg.created_at|timesince }} ago</span>
+                        </div>
+                        <div class="msg-status">
+                            {% if not msg.is_read %}<span class="new-dot">NEW</span>{% endif %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="empty-state">Inbox is empty.</p>
+                    {% endfor %}
+                </div>
+                <a href="/admin/contact/message/" class="panel-footer-link">OPEN MESSAGE CENTER →</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // System Gauge
+    const ctxG = document.getElementById('gaugeChart').getContext('2d');
+    new Chart(ctxG, {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: [{{ metrics.cpu_usage }}, 100 - {{ metrics.cpu_usage }}],
+                backgroundColor: ['#a78bfa', '#222'],
+                borderWidth: 0, circumference: 180, rotation: 270, cutout: '80%'
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } } }
+    });
+
+    // Real-time Polling
+    function updateDashboard() {
+        fetch('/admin/api/messages/')
+            .then(res => res.json())
+            .then(data => {
+                const feed = document.getElementById('live-messages-feed');
+                if (data.messages.length > 0) {
+                    feed.innerHTML = data.messages.map(msg => `
+                        <div class="msg-card fade-in">
+                            <div class="msg-top">
+                                <strong>${msg.name}</strong>
+                                <span>${msg.created_at}</span>
+                            </div>
+                            <div class="msg-status">
+                                ${!msg.is_read ? '<span class="new-dot">NEW</span>' : ''}
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            });
+    }
+    setInterval(updateDashboard, 5000);
+</script>
+
+<style>
+    /* ---------------------------------------------------------
+       DASHBOARD GRID CSS
+    --------------------------------------------------------- */
+    .admin-dashboard-container { max-width: 1600px; margin: 0 auto; display: flex; flex-direction: column; gap: 30px; }
+
+    /* Top Banner */
+    .dashboard-top-banner { display: flex; gap: 20px; flex-wrap: wrap; }
+    .banner-card { background: var(--card); border: 1px solid rgba(167, 139, 250, 0.2); border-radius: 16px; padding: 20px; display: flex; align-items: center; }
+    .highlight-card { flex: 1; min-width: 250px; gap: 20px; border-color: var(--accent); }
+    .mini-gauge { width: 80px; height: 80px; }
+    .c-label { display: block; font-size: 0.65rem; color: var(--muted); letter-spacing: 1px; font-weight: 800; }
+    .c-val { font-size: 1.3rem; font-weight: 900; color: var(--accent); }
+
+    .stats-group { flex: 3; min-width: 300px; justify-content: space-around; text-align: center; }
+    .s-val { display: block; font-size: 1.5rem; font-weight: 900; color: var(--accent); }
+    .s-label { font-size: 0.65rem; color: var(--muted); letter-spacing: 1px; font-weight: 800; }
+
+    /* Main Grid */
+    .dashboard-main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; align-items: flex-start; }
+    
+    /* Control Widgets */
+    .panel-widget { background: var(--card); border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); padding: 25px; margin-bottom: 25px; }
+    .live-border { border-color: rgba(255, 77, 77, 0.1); }
+    .panel-header { margin: 0 0 20px 0; font-size: 0.85rem; font-weight: 900; letter-spacing: 1px; color: var(--muted); border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
+
+    .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .p-btn { 
+        background: var(--accent); color: #000 !important; text-align: center; padding: 12px; 
+        border-radius: 10px; text-decoration: none; font-size: 0.75rem; font-weight: 800; transition: 0.3s;
+    }
+    .p-btn:hover { background: #fff; transform: translateY(-3px); }
+    .p-btn.alt { background: rgba(167, 139, 250, 0.15); color: var(--accent) !important; border: 1px solid var(--accent); }
+    .p-btn.dark { background: #222; color: #fff !important; }
+
+    /* Inbox Cards */
+    .msg-card { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .msg-top strong { display: block; font-size: 0.85rem; color: var(--text); }
+    .msg-top span { font-size: 0.7rem; color: var(--muted); }
+    .new-dot { background: #ff4d4d; color: #fff; font-size: 0.6rem; padding: 2px 8px; border-radius: 10px; font-weight: 900; }
+    .panel-footer-link { display: block; text-align: center; margin-top: 20px; font-size: 0.8rem; font-weight: 800; color: var(--accent); text-decoration: none; }
+    .empty-state { color: var(--muted); font-size: 0.8rem; text-align: center; }
+
+    .fade-in { animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 1200px) {
+        .dashboard-main-grid { grid-template-columns: 1fr; }
+        #content { padding: 20px !important; }
+    }
+</style>
+{% endblock %}

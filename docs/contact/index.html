@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            
+        }
+        
+        
+    </style>
+</head>
+<body class="">
+    <div class="bg-fixed-img"></div>
+    <div class="bg-overlay"></div>
+    
+    <nav>
+        <div class="logo">
+            <a href="../index.html">SERHAT ÇAM</a>
+        </div>
+        <div class="nav-content">
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../projects/index.html">Projects</a>
+                <a href="../about/index.html">About</a>
+                <a href="../contact/index.html">Contact</a>
+            </div>
+            <div class="social-nav">
+                
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+<section style="max-width: 700px; margin: 0 auto;">
+    <h2 class="section-title">Get in <span>Touch</span></h2>
+    
+    <div class="glass-card">
+        <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">Have a project in mind or just want to say hi? Drop me a message below and I'll get back to you as soon as possible.</p>
+        
+        <form method="POST">
+            <input type="hidden" name="csrfmiddlewaretoken" value="BwXPwgmkKNGtLeHAEzgNi3HVQ1tuFNSFnRL52mMbR11QN1wFejdeMHCqrO8CzANq">
+            
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label style="font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px;">Name</label>
+                <input type="text" name="name" class="form-control" placeholder="Your Name" maxlength="100" required id="id_name">
+                
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label style="font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px;">Email</label>
+                <input type="email" name="email" class="form-control" placeholder="Your Email" maxlength="320" required id="id_email">
+                
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label style="font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px;">Message</label>
+                <textarea name="message" cols="40" rows="10" class="form-control" placeholder="Your Message" required id="id_message">
+</textarea>
+                
+            </div>
+            
+            
+            <div style="margin-top: 1rem;">
+                <button type="submit" class="btn" style="width: 100%;">Send Message</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+    </div>
+
+    <footer class="watermark-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 <b>SERHAT ÇAM</b>. Crafted with <b>Django</b> & Passion.</p>
+        </div>
+    </footer>
+</body>
+</html>

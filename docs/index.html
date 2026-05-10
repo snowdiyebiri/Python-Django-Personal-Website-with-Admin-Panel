@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            
+            --bg-color: #0c0c0e;
+            --accent: #a78bfa;
+            --card-bg: #161619;
+            --text-primary: #f4f4f5;
+            --bg-pattern-color: #333333;
+            --bg-pattern-opacity: 0.01;
+            --anim-speed: 0.1s;
+            
+        }
+        
+        
+    </style>
+</head>
+<body class="bg-dots">
+    <div class="bg-fixed-img"></div>
+    <div class="bg-overlay"></div>
+    
+    <nav>
+        <div class="logo">
+            <a href="index.html">SERHAT ÇAM</a>
+        </div>
+        <div class="nav-content">
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="projects/index.html">Projects</a>
+                <a href="about/index.html">About</a>
+                <a href="contact/index.html">Contact</a>
+            </div>
+            <div class="social-nav">
+                
+                    <a href="https://www.linkedin.com/in/serhatcammm/" target="_blank" title="LinkedIn">
+                        
+                            <i class="fa-brands fa-linkedin"></i>
+                        
+                    </a>
+                
+                    <a href="https://instagram.com/serhatcammm" target="_blank" title="Instagram">
+                        
+                            <i class="fa-brands fa-instagram"></i>
+                        
+                    </a>
+                
+                    <a href="https://twitter.com/serhatcammm" target="_blank" title="Twitter">
+                        
+                            <i class="fa-brands fa-twitter"></i>
+                        
+                    </a>
+                
+                    <a href="https://github.com/serhatcammm" target="_blank" title="GitHub">
+                        
+                            <i class="fa-brands fa-github"></i>
+                        
+                    </a>
+                
+                    <a href="https://facebook.com/serhatcammm" target="_blank" title="Facebook">
+                        
+                            <i class="fa-brands fa-facebook"></i>
+                        
+                    </a>
+                
+                    <a href="https://www.printables.com/@serhatcammm" target="_blank" title="Printables">
+                        
+                            <i class="fa-brands fa-print"></i>
+                        
+                    </a>
+                
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+<!-- Single Page Dashboard Layout -->
+<div class="main-content-flow">
+    
+    <!-- 1. Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            
+            <h1>Hi, I&#x27;m <span>Serhat ÇAM</span></h1>
+            <p style="font-size: 1.5rem; min-height: 2.5em;">
+                <span id="typewriter-text" style="color: var(--accent); font-weight: 800; border-right: 3px solid var(--accent); padding-right: 5px;"></span><br>
+                <span style="font-size: 1.1rem; opacity: 0.8;">I&#x27;m doing what i love.</span>
+            </p>
+            <div class="hero-btns">
+                <a href="projects/index.html" class="btn">Explore Work</a>
+                <a href="contact/index.html" class="btn btn-outline" style="margin-left:10px;">Let&#x27;s Talk</a>
+            </div>
+            
+        </div>
+
+        <div class="hero-visual">
+            <div id="swipe-stack" class="swipe-container">
+                
+                <div class="hero-card" data-index="0">
+                    
+                    <img src="media/project_images/p1.jpg" alt="Checkout Microservice">
+                    
+                    <div class="hero-card-label">Checkout Microservice</div>
+                </div>
+                
+                <div class="hero-card" data-index="1">
+                    
+                    <img src="media/project_images/p2.jpg" alt="Order Event Handler">
+                    
+                    <div class="hero-card-label">Order Event Handler</div>
+                </div>
+                
+                <div class="hero-card" data-index="2">
+                    
+                    <img src="media/project_images/p3.jpg" alt="Search API Optimization">
+                    
+                    <div class="hero-card-label">Search API Optimization</div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Expertise & Stats -->
+    <section id="expertise">
+        <h2 class="section-title">Core <span>Expertise</span></h2>
+        <div class="compact-grid">
+            
+            <div class="mini-card">
+                <h3 style="color: var(--accent); margin-top:0; font-size: 1rem; letter-spacing: 1px;">Backend</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;">
+                    
+                    <span style="background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.05);">Java</span>
+                    
+                    <span style="background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.05);">Kotlin</span>
+                    
+                    <span style="background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.05);">Spring Boot</span>
+                    
+                    <span style="background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.05);">Microservices</span>
+                    
+                </div>
+            </div>
+            
+            <div class="mini-card">
+                <h3 style="color: var(--accent); margin-top:0; font-size: 1rem; letter-spacing: 1px;">Data &amp; Cloud</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;">
+                    
+                    <span style="background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.05);">PostgreSQL</span>
+                    
+                    <span style="background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.05);">Redis</span>
+                    
+                    <span style="background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.05);">Kafka</span>
+                    
+                    <span style="background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.05);">Docker</span>
+                    
+                </div>
+            </div>
+            
+            <div class="mini-card">
+                <h3 style="color: var(--accent); margin-top:0; font-size: 1rem; letter-spacing: 1px;">Practices</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;">
+                    
+                    <span style="background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.05);">TDD</span>
+                    
+                    <span style="background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.05);">CI/CD</span>
+                    
+                    <span style="background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.05);">Unit Testing</span>
+                    
+                    <span style="background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.05);">Design Patterns</span>
+                    
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Inline Stats & CTA -->
+        <div class="stats-bar">
+            
+            <div class="stat-item">
+                <h3>5+</h3>
+                <p>Years Exp.</p>
+            </div>
+            
+            <div class="stat-item">
+                <h3>50+</h3>
+                <p>Projects</p>
+            </div>
+            
+            <div class="stat-item">
+                <h3>20+</h3>
+                <p>Clients</p>
+            </div>
+            
+            <div class="stat-item hire-me-container" style="display: flex; align-items: center; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 2rem;">
+                <a href="contact/index.html" class="btn" style="padding: 0.8rem 2.5rem;">Hire Me</a>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    // 1. Typewriter Logic
+    const phrases = "Network Engineer, Maker, Graphic Designer, Vibe Coder,Astrophotographer".split(',').map(t => t.trim());
+    let curP = 0, curC = 0, isDel = false;
+    const el = document.getElementById('typewriter-text');
+    
+    const typingSpeed = 75;
+    const deletingSpeed = typingSpeed / 2;
+
+    function type() {
+        const full = phrases[curP];
+        el.textContent = isDel ? full.substring(0, curC - 1) : full.substring(0, curC + 1);
+        curC = isDel ? curC - 1 : curC + 1;
+        let speed = isDel ? deletingSpeed : typingSpeed;
+        if (!isDel && curC === full.length) { isDel = true; speed = 2500; }
+        else if (isDel && curC === 0) { isDel = false; curP = (curP + 1) % phrases.length; speed = 500; }
+        setTimeout(type, speed);
+    }
+    if (phrases.length) type();
+
+    // 2. Swipe/Interactive Stack Logic
+    const cards = document.querySelectorAll('.hero-card');
+    let activeIndex = 0;
+
+    function updateStack() {
+        cards.forEach((card, i) => {
+            const offset = (i - activeIndex + cards.length) % cards.length;
+            if (offset === 0) {
+                card.style.transform = 'translateZ(100px) scale(1) translateX(0) rotateY(0deg)';
+                card.style.opacity = '1';
+                card.style.zIndex = '10';
+            } else if (offset === 1) {
+                card.style.transform = 'translateZ(0px) scale(0.92) translateX(40px) rotateY(-10deg) translateY(10px)';
+                card.style.opacity = '0.6';
+                card.style.zIndex = '5';
+            } else if (offset === 2) {
+                card.style.transform = 'translateZ(-100px) scale(0.85) translateX(60px) rotateY(-15deg) translateY(20px)';
+                card.style.opacity = '0.3';
+                card.style.zIndex = '2';
+            } else {
+                card.style.transform = 'translateZ(-200px) scale(0.8) translateX(0) rotateY(0deg)';
+                card.style.opacity = '0';
+                card.style.zIndex = '1';
+            }
+        });
+    }
+
+    document.getElementById('swipe-stack').addEventListener('click', () => {
+        activeIndex = (activeIndex + 1) % cards.length;
+        updateStack();
+    });
+
+    // Hover highlight for current card
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            if (card.style.zIndex === '10') {
+                card.style.transform += ' translateY(-10px)';
+                card.style.boxShadow = '0 30px 60px rgba(0,0,0,0.8), 0 0 30px var(--accent)';
+            }
+        });
+        card.addEventListener('mouseleave', updateStack);
+    });
+
+    updateStack();
+</script>
+
+<style>
+    .main-content-flow { display: flex; flex-direction: column; gap: 1rem; }
+    #expertise { padding-top: 1rem; }
+    .hero-card { transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s, box-shadow 0.4s !important; }
+    
+    @media (max-width: 768px) {
+        .stats-bar { flex-direction: column; gap: 2rem; padding: 1.5rem; }
+        .hire-me-container { border-left: none !important; padding-left: 0 !important; justify-content: center; }
+        .hero-visual { height: 350px; margin-top: 2rem; }
+    }
+</style>
+
+    </div>
+
+    <footer class="watermark-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 <b>SERHAT ÇAM</b>. Crafted with <b>Django</b> & Passion.</p>
+        </div>
+    </footer>
+</body>
+</html>

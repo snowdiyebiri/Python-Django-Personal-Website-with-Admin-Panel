@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portfolio{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            {% if theme %}
+            --bg-color: {{ theme.bg_color }};
+            --accent: {{ theme.accent_color }};
+            --card-bg: {{ theme.card_color }};
+            --text-primary: {{ theme.text_color }};
+            --bg-pattern-color: {{ theme.bg_pattern_color }};
+            --bg-pattern-opacity: {{ theme.bg_pattern_opacity }};
+            --anim-speed: {{ theme.anim_speed }}s;
+            {% endif %}
+        }
+        
+        {% if theme and theme.bg_image %}
+        .bg-fixed-img {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background-image: url('{{ theme.bg_image.url }}');
+            background-size: cover;
+            background-position: center;
+            filter: blur({{ theme.bg_image_blur }}px) brightness({{ theme.bg_image_brightness }});
+        }
+        {% endif %}
+    </style>
+</head>
+<body class="{% if theme %}{% if theme.bg_pattern == 'dots' %}bg-dots{% elif theme.bg_pattern == 'grid' %}bg-grid{% endif %}{% endif %}">
+    <div class="bg-fixed-img"></div>
+    <div class="bg-overlay"></div>
+    
+    <nav>
+        <div class="logo">
+            <a href="{% url 'home' %}">SERHAT ÇAM</a>
+        </div>
+        <div class="nav-content">
+            <div class="nav-links">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'project_index' %}">Projects</a>
+                <a href="{% url 'about' %}">About</a>
+                <a href="{% url 'contact' %}">Contact</a>
+            </div>
+            <div class="social-nav">
+                {% for link in social_links %}
+                    <a href="{{ link.url }}" target="_blank" title="{{ link.platform }}">
+                        {% if link.icon_image %}
+                            <img src="{{ link.icon_image.url }}" alt="{{ link.platform }}">
+                        {% else %}
+                            <i class="fa-brands {{ link.icon_class }}"></i>
+                        {% endif %}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer class="watermark-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 <b>SERHAT ÇAM</b>. Crafted with <b>Django</b> & Passion.</p>
+        </div>
+    </footer>
+</body>
+</html>

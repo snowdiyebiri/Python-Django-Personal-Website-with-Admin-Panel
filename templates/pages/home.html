@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Single Page Dashboard Layout -->
+<div class="main-content-flow">
+    
+    <!-- 1. Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            {% if hero %}
+            <h1>{{ hero.greeting }} <span>{{ hero.name }}</span></h1>
+            <p style="font-size: 1.5rem; min-height: 2.5em;">
+                <span id="typewriter-text" style="color: var(--accent); font-weight: 800; border-right: 3px solid var(--accent); padding-right: 5px;"></span><br>
+                <span style="font-size: 1.1rem; opacity: 0.8;">{{ hero.description }}</span>
+            </p>
+            <div class="hero-btns">
+                <a href="{% url 'project_index' %}" class="btn">{{ hero.primary_cta_text }}</a>
+                <a href="{% url 'contact' %}" class="btn btn-outline" style="margin-left:10px;">{{ hero.secondary_cta_text }}</a>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="hero-visual">
+            <div id="swipe-stack" class="swipe-container">
+                {% for project in featured_projects %}
+                <div class="hero-card" data-index="{{ forloop.counter0 }}">
+                    {% if project.image %}
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                    {% endif %}
+                    <div class="hero-card-label">{{ project.title }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Expertise & Stats -->
+    <section id="expertise">
+        <h2 class="section-title">Core <span>Expertise</span></h2>
+        <div class="compact-grid">
+            {% for category in skill_categories %}
+            <div class="mini-card">
+                <h3 style="color: var(--accent); margin-top:0; font-size: 1rem; letter-spacing: 1px;">{{ category.name }}</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;">
+                    {% for skill in category.skills.all %}
+                    <span style="background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.05);">{{ skill.name }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Inline Stats & CTA -->
+        <div class="stats-bar">
+            {% for stat in stats %}
+            <div class="stat-item">
+                <h3>{{ stat.value }}</h3>
+                <p>{{ stat.label }}</p>
+            </div>
+            {% endfor %}
+            <div class="stat-item hire-me-container" style="display: flex; align-items: center; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 2rem;">
+                <a href="{% url 'contact' %}" class="btn" style="padding: 0.8rem 2.5rem;">Hire Me</a>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    // 1. Typewriter Logic
+    const phrases = "{{ hero.titles|escapejs }}".split(',').map(t => t.trim());
+    let curP = 0, curC = 0, isDel = false;
+    const el = document.getElementById('typewriter-text');
+    
+    const typingSpeed = {% if theme %}{{ theme.typing_speed }}{% else %}150{% endif %};
+    const deletingSpeed = typingSpeed / 2;
+
+    function type() {
+        const full = phrases[curP];
+        el.textContent = isDel ? full.substring(0, curC - 1) : full.substring(0, curC + 1);
+        curC = isDel ? curC - 1 : curC + 1;
+        let speed = isDel ? deletingSpeed : typingSpeed;
+        if (!isDel && curC === full.length) { isDel = true; speed = 2500; }
+        else if (isDel && curC === 0) { isDel = false; curP = (curP + 1) % phrases.length; speed = 500; }
+        setTimeout(type, speed);
+    }
+    if (phrases.length) type();
+
+    // 2. Swipe/Interactive Stack Logic
+    const cards = document.querySelectorAll('.hero-card');
+    let activeIndex = 0;
+
+    function updateStack() {
+        cards.forEach((card, i) => {
+            const offset = (i - activeIndex + cards.length) % cards.length;
+            if (offset === 0) {
+                card.style.transform = 'translateZ(100px) scale(1) translateX(0) rotateY(0deg)';
+                card.style.opacity = '1';
+                card.style.zIndex = '10';
+            } else if (offset === 1) {
+                card.style.transform = 'translateZ(0px) scale(0.92) translateX(40px) rotateY(-10deg) translateY(10px)';
+                card.style.opacity = '0.6';
+                card.style.zIndex = '5';
+            } else if (offset === 2) {
+                card.style.transform = 'translateZ(-100px) scale(0.85) translateX(60px) rotateY(-15deg) translateY(20px)';
+                card.style.opacity = '0.3';
+                card.style.zIndex = '2';
+            } else {
+                card.style.transform = 'translateZ(-200px) scale(0.8) translateX(0) rotateY(0deg)';
+                card.style.opacity = '0';
+                card.style.zIndex = '1';
+            }
+        });
+    }
+
+    document.getElementById('swipe-stack').addEventListener('click', () => {
+        activeIndex = (activeIndex + 1) % cards.length;
+        updateStack();
+    });
+
+    // Hover highlight for current card
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            if (card.style.zIndex === '10') {
+                card.style.transform += ' translateY(-10px)';
+                card.style.boxShadow = '0 30px 60px rgba(0,0,0,0.8), 0 0 30px var(--accent)';
+            }
+        });
+        card.addEventListener('mouseleave', updateStack);
+    });
+
+    updateStack();
+</script>
+
+<style>
+    .main-content-flow { display: flex; flex-direction: column; gap: 1rem; }
+    #expertise { padding-top: 1rem; }
+    .hero-card { transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s, box-shadow 0.4s !important; }
+    
+    @media (max-width: 768px) {
+        .stats-bar { flex-direction: column; gap: 2rem; padding: 1.5rem; }
+        .hire-me-container { border-left: none !important; padding-left: 0 !important; justify-content: center; }
+        .hero-visual { height: 350px; margin-top: 2rem; }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section style="max-width: 700px; margin: 0 auto;">
+    <h2 class="section-title">Get in <span>Touch</span></h2>
+    
+    <div class="glass-card">
+        <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">Have a project in mind or just want to say hi? Drop me a message below and I'll get back to you as soon as possible.</p>
+        
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label style="font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px;">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <span style="color: #ff4d4d; font-size: 0.8rem;">{{ field.errors.0 }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+            
+            <div style="margin-top: 1rem;">
+                <button type="submit" class="btn" style="width: 100%;">Send Message</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
