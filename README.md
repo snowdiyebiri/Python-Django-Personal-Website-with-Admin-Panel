@@ -29,7 +29,13 @@ A professional, high-performance personal portfolio website built with **Django 
 git clone https://github.com/snowdiyebiri/Python-Django-Personal-Website-with-Admin-Panel.git
 cd Python-Django-Personal-Website-with-Admin-Panel
 python -m venv venv
-source venv/Scripts/activate  # Windows
+
+# Activate Virtual Environment:
+# Windows Command Prompt:
+.\venv\Scripts\activate
+# PowerShell:
+.\venv\Scripts\Activate.ps1
+
 pip install -r requirements.txt
 ```
 
