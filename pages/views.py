@@ -9,9 +9,16 @@ def get_base_context(request):
 
 def home(request):
     all_projects = Project.objects.all()
+    project_count = all_projects.count()
     skill_categories = SkillCategory.objects.all().prefetch_related('skills')
     hero = HeroContent.objects.filter(is_active=True).first()
     stats = Stat.objects.all()
+    
+    # Dynamically update the Projects stat if it exists
+    for stat in stats:
+        if 'project' in stat.label.lower():
+            stat.value = f"{project_count}+" if project_count > 0 else "0"
+
     context = get_base_context(request)
     context.update({
         'featured_projects': all_projects,
