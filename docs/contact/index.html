@@ -23,6 +23,9 @@
             
         }
         
+        /* Hide language elements until JS initializes to prevent flicker */
+        .lang-en, .lang-tr { display: none; }
+        
         /* Apply theme immediately to body */
         body[data-theme='light'] { --bg-color: #ffffff; --card-bg: #f4f4f5; --text-primary: #18181b; --text-secondary: #52525b; --accent: #7c3aed; --navbar-bg: rgba(255, 255, 255, 0.9); }
         
@@ -127,7 +130,7 @@
         <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">Have a project in mind or just want to say hi? Drop me a message below and I'll get back to you as soon as possible.</p>
         
         <form method="POST">
-            <input type="hidden" name="csrfmiddlewaretoken" value="K5Ni7hDbLk8NMzdv9TOYypUXgjLiJNL3PhLs0GfuYJ81rE2xvrpZbV8vO4m4f5IV">
+            <input type="hidden" name="csrfmiddlewaretoken" value="3K5IWxeev5lnCs1jrBv8l4SWWcVh1gzLcQunECwYDcibK7veQ7lR7EdxxqSEyGFb">
             
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <label style="font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px;">Name</label>

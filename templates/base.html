@@ -33,6 +33,9 @@
             {% endif %}
         }
         
+        /* Hide language elements until JS initializes to prevent flicker */
+        .lang-en, .lang-tr { display: none; }
+        
         /* Apply theme immediately to body */
         body[data-theme='light'] { --bg-color: #ffffff; --card-bg: #f4f4f5; --text-primary: #18181b; --text-secondary: #52525b; --accent: #7c3aed; --navbar-bg: rgba(255, 255, 255, 0.9); }
         
