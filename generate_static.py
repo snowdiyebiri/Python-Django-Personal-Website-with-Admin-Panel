@@ -11,6 +11,7 @@ PATHS = [
     "projects/",
     "contact/",
     "references/",
+    "admin-preview/",
 ]
 
 # Add projects dynamically if possible, or use the known IDs

@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio</title>
     
-        <link rel="icon" type="image/x-icon" href="../../static/assets/favicon.svg">
+        <link rel="icon" type="image/x-icon" href="../static/assets/favicon.svg">
     
-    <link rel="stylesheet" href="../../static/style.css">
+    <link rel="stylesheet" href="../static/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <script>
@@ -19,6 +19,14 @@
 
     <style>
         :root {
+            
+            --bg-color: #0c0c0e;
+            --accent: #a78bfa;
+            --card-bg: #161619;
+            --text-primary: #f4f4f5;
+            --bg-pattern-color: #333333;
+            --bg-pattern-opacity: 0.01;
+            --anim-speed: 0.1s;
             
         }
         
@@ -32,27 +40,27 @@
         
     </style>
 </head>
-<body class="" data-theme="dark">
+<body class="bg-dots" data-theme="dark">
     <script>document.body.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');</script>
     <div class="bg-fixed-img"></div>
     <div class="bg-overlay"></div>
     
     <nav>
         <div class="logo">
-            <a href="../../index.html">
+            <a href="../index.html">
                 
-                    <img src="../../static/assets/logo.svg" alt="Logo" style="height: 40px; width: auto; object-fit: contain;">
+                    <img src="../media/logos/my_logo.png" alt="Logo" style="height: 40px; width: auto; object-fit: contain;">
                 
             </a>
         </div>
         <div class="nav-content">
             <div class="nav-links">
-                <a href="../../index.html">Home</a>
-                <a href="../../projects/index.html">Projects</a>
-                <a href="../../about/index.html">About</a>
-                <a href="../../references/index.html">References</a>
-                <a href="../../admin-preview/index.html">Admin</a>
-                <a href="../../contact/index.html">Contact</a>
+                <a href="../index.html">Home</a>
+                <a href="../projects/index.html">Projects</a>
+                <a href="../about/index.html">About</a>
+                <a href="../references/index.html">References</a>
+                <a href="../admin-preview/index.html">Admin</a>
+                <a href="../contact/index.html">Contact</a>
             </div>
             
             <div class="search-nav-wrapper">
@@ -93,32 +101,65 @@
 
             <div class="social-nav">
                 
+                    <a href="https://www.linkedin.com/in/serhatcammm/" target="_blank" title="LinkedIn">
+                        
+                            <i class="fa-brands fa-linkedin"></i>
+                        
+                    </a>
+                
+                    <a href="https://www.instagram.com/serhat.cammm" target="_blank" title="Instagram">
+                        
+                            <i class="fa-brands fa-instagram"></i>
+                        
+                    </a>
+                
+                    <a href="https://twitter.com/serhatcammm" target="_blank" title="Twitter">
+                        
+                            <i class="fa-brands fa-twitter"></i>
+                        
+                    </a>
+                
+                    <a href="https://github.com/snowdiyebiri" target="_blank" title="GitHub">
+                        
+                            <i class="fa-brands fa-github"></i>
+                        
+                    </a>
+                
+                    <a href="https://facebook.com/serhatcammm" target="_blank" title="Facebook">
+                        
+                            <i class="fa-brands fa-facebook"></i>
+                        
+                    </a>
+                
+                    <a href="https://www.printables.com/@SerhatCam_755101" target="_blank" title="Printables">
+                        
+                            <i class="fa-brands fa-print"></i>
+                        
+                    </a>
+                
             </div>
         </div>
     </nav>
 
     <div class="container">
         
-<section style="max-width: 900px; margin: 0 auto;">
-    <div class="glass-card">
-        <h1 style="margin-top: 0; color: #fff; font-size: 3rem; letter-spacing: -1px;">Cloud Infrastructure</h1>
-        <p style="color: var(--accent); font-weight: 800; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">AWS, Terraform</p>
-        
-        
-        <div style="margin: 2rem 0; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
-            <img src="../../media/project_images/p1.jpg" alt="Cloud Infrastructure" style="width: 100%; display: block;">
+<section style="padding: 2rem 0;">
+    <h2 class="section-title">Admin <span>Panel Preview</span></h2>
+    <p style="color: var(--text-secondary); margin-bottom: 3rem; max-width: 600px;">
+        Here is a glimpse of the powerful Command Center that lets you manage your portfolio content, themes, and branding.
+    </p>
+    
+    <div class="grid">
+        <!-- Add your image tags below -->
+        <!-- Example: 
+        <div class="glass-card">
+            <h3>Theme Settings</h3>
+            <img src="../static/admin_preview/theme.png" alt="Theme Settings" style="width: 100%; border-radius: 12px;">
         </div>
-        
-
-        <div style="color: var(--text-primary); line-height: 1.8; font-size: 1.1rem; margin-bottom: 2rem;">
-            <p>Scalable AWS-based backend architecture.</p>
-        </div>
-
-        <div style="display: flex; gap: 1.5rem; align-items: center;">
-            
-            <a href="https://github.com" class="btn" target="_blank">Launch Project</a>
-            
-            <a href="../../projects/index.html" style="color: var(--text-secondary); text-decoration: none; font-weight: bold; font-size: 0.9rem;">← Back to Projects</a>
+        -->
+        <div class="glass-card">
+            <h3>Admin Preview</h3>
+            <p style="color: var(--text-secondary);">Place your admin screenshots in <code>static/admin_preview/</code> and add them to this file.</p>
         </div>
     </div>
 </section>
