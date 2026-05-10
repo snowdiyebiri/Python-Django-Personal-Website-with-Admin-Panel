@@ -33,6 +33,10 @@
         /* Apply theme immediately to body */
         body[data-theme='light'] { --bg-color: #ffffff; --card-bg: #f4f4f5; --text-primary: #18181b; --text-secondary: #52525b; --accent: #7c3aed; --navbar-bg: rgba(255, 255, 255, 0.9); }
         
+        .lang-en, .lang-tr { display: none; }
+        body.lang-en .lang-en { display: inline !important; }
+        body.lang-tr .lang-tr { display: inline !important; }
+        
         {% if theme and theme.bg_image %}
         .bg-fixed-img {
             position: fixed;
