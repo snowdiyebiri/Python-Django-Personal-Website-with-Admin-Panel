@@ -56,7 +56,7 @@ This will create a `docs/` folder containing the static HTML files and assets.
 
 1. **Clone the repository:**
    ```bash
-   git clone [<repository-url>](https://github.com/snowdiyebiri/Python-Django-Personal-Website-with-Admin-Panel.git)
+   git clone https://github.com/snowdiyebiri/Python-Django-Personal-Website-with-Admin-Panel.git
    cd DjangoWebSite
    ```
 
