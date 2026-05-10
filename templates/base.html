@@ -7,6 +7,8 @@
     <title>{% block title %}Portfolio{% endblock %}</title>
     {% if theme and theme.favicon %}
         <link rel="icon" type="image/x-icon" href="{{ theme.favicon.url }}">
+    {% else %}
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.svg' %}">
     {% endif %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -61,7 +63,7 @@
                 {% if theme and theme.logo %}
                     <img src="{{ theme.logo.url }}" alt="Logo" style="height: 40px; width: auto; object-fit: contain;">
                 {% else %}
-                    PORTFOLIO
+                    <img src="{% static 'assets/logo.svg' %}" alt="Logo" style="height: 40px; width: auto; object-fit: contain;">
                 {% endif %}
             </a>
         </div>
