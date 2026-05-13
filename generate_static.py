@@ -26,33 +26,28 @@ for slug in PROJECT_SLUGS:
     PATHS.append(f"projects/{slug}/")
 
 def fix_links(html, current_path, theme_dir=""):
-    # Calculate how many folders deep we are
-    depth = current_path.strip("/").count("/")
-    # If the path is empty, depth is 0
-    if not current_path.strip("/"):
-        depth = 0
-        
-    prefix = "../" * depth
-    if depth == 0:
-        prefix = "./"
+    # Always use root-relative paths starting with /theme-dir/
+    theme_prefix = f"/{theme_dir}"
 
-    # Fix static and media: point to theme folder relative
-    html = html.replace('href="/static/', f'href="{prefix}static/')
-    html = html.replace('src="/static/', f'src="{prefix}static/')
-    html = html.replace('href="/media/', f'href="{prefix}media/')
-    html = html.replace('src="/media/', f'src="{prefix}media/')
+    # Fix static and media
+    html = html.replace('href="/static/', f'href="{theme_prefix}/static/')
+    html = html.replace('src="/static/', f'src="{theme_prefix}/static/')
+    html = html.replace('href="/media/', f'href="{theme_prefix}/media/')
+    html = html.replace('src="/media/', f'src="{theme_prefix}/media/')
     
-    # Fix internal links
+    # Fix internal links: ensure all internal site links point to /theme-dir/path/index.html
     for p in PATHS:
+        # Match links starting with /p (e.g., href="/about/")
         old_link = f'href="/{p}"'
-        # Construct relative link: index.html at destination
-        target_path = f"{p}index.html" if p else "index.html"
+        # Point to /theme-dir/p/index.html
+        target = f"{theme_prefix}/{p}index.html"
+        new_link = f'href="{target}"'
         
-        # Use forward slashes for URL paths, relpath might return backslashes on Windows
-        relative_path = os.path.relpath(target_path, current_path.strip("/") if current_path else ".")
-        relative_path = relative_path.replace(os.sep, '/')
-        new_link = f'href="{relative_path}"'
-        
+        # Special case for root
+        if p == "":
+            old_link = 'href="/"'
+            new_link = f'href="{theme_prefix}/index.html"'
+            
         html = html.replace(old_link, new_link)
         
     return html
