@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Select Theme</title>
+    <style>
+        body { font-family: sans-serif; background: #0c0c0e; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        h1 { margin-bottom: 2rem; }
+        .theme-list { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+        a { background: #161619; color: #fff; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; border: 1px solid #333; transition: 0.3s; }
+        a:hover { background: #a78bfa; color: #000; border-color: #a78bfa; }
+    </style>
+</head>
+<body>
+    <h1>Select a Portfolio Theme</h1>
+    <div class="theme-list">
+        {% for theme in themes %}
+            <a href="{{ theme.name|lower|slugify }}/index.html">{{ theme.name }}</a>
+        {% endfor %}
+    </div>
+</body>
+</html>

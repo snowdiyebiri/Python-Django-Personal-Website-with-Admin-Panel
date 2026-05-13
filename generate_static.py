@@ -89,12 +89,21 @@ def main():
     OUTPUT_DIR.mkdir()
 
     themes = ThemeSettings.objects.all()
+    
+    # 1. Generate theme subdirectories
     for theme in themes:
         generate_for_theme(theme)
 
+    # 2. Generate root index.html landing page
+    print("Generating root landing page...")
+    from django.template.loader import render_to_string
+    root_html = render_to_string('index.html', {'themes': themes})
+    with open(OUTPUT_DIR / "index.html", "w", encoding="utf-8") as f:
+        f.write(root_html)
+
     # Add .nojekyll
     (OUTPUT_DIR / ".nojekyll").touch()
-    print(f"All theme versions generated in {OUTPUT_DIR}/")
+    print(f"Static site generated in {OUTPUT_DIR}/")
 
 if __name__ == "__main__":
     main()
