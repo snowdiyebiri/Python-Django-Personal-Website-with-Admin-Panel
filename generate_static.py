@@ -25,29 +25,31 @@ PROJECT_SLUGS = ['e-commerce-api', 'ai-image-generator', 'task-management-system
 for slug in PROJECT_SLUGS:
     PATHS.append(f"projects/{slug}/")
 
+BASE_PATH = "/Python-Django-Personal-Website-with-Admin-Panel"
+
 def fix_links(html, full_path, theme_dir):
-    # full_path is e.g. "projects/slug/"
-    # theme_dir is "modern-dark"
-    # depth is segments of "modern-dark/projects/slug/"
-    path_segments = [theme_dir] + [p for p in full_path.strip('/').split('/') if p]
-    depth = len(path_segments)
-    prefix = "../" * depth
+    # theme_dir e.g. "modern-dark"
+    # full_path e.g. "projects/slug/"
     
-    # Fix static/media/internal links using prefix
-    html = html.replace('href="/static/', f'href="{prefix}static/')
-    html = html.replace('src="/static/', f'src="{prefix}static/')
-    html = html.replace('href="/media/', f'href="{prefix}media/')
-    html = html.replace('src="/media/', f'src="{prefix}media/')
+    # Prepend the repo base path to static and media
+    # Links look like: href="/Python-Django-Personal-Website-with-Admin-Panel/modern-dark/static/style.css"
+    base_prefix = f"{BASE_PATH}/{theme_dir}"
     
+    html = html.replace('href="/static/', f'href="{base_prefix}/static/')
+    html = html.replace('src="/static/', f'src="{base_prefix}/static/')
+    html = html.replace('href="/media/', f'href="{base_prefix}/media/')
+    html = html.replace('src="/media/', f'src="{base_prefix}/media/')
+    
+    # Fix internal links
     for p in PATHS:
         old_link = f'href="/{p}"'
-        # Target is at root: ../../.. + p + index.html
-        target = f"{prefix}{p}index.html"
+        # Target: /repo/theme-dir/p/index.html
+        target = f"{base_prefix}/{p}index.html"
         new_link = f'href="{target}"'
         
         if p == "":
             old_link = 'href="/"'
-            new_link = f'href="{prefix}index.html"'
+            new_link = f'href="{BASE_PATH}/index.html"'
             
         html = html.replace(old_link, new_link)
         
