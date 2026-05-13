@@ -1,26 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section style="max-width: 700px; margin: 0 auto;">
+<section class="container">
     <h2 class="section-title">{% if site %}{{ site.contact_title_prefix }}{% else %}Get in{% endif %} <span>{% if site %}{{ site.contact_title_highlight }}{% else %}Touch{% endif %}</span></h2>
     
-    <div class="glass-card">
+    <div class="glass-card" style="max-width: 600px; margin: 0 auto; padding: 3rem;">
         <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">{% if site %}{{ site.contact_description }}{% else %}Have a project in mind or just want to say hi? Drop me a message below and I'll get back to you as soon as possible.{% endif %}</p>
         
         <form method="POST">
             {% csrf_token %}
             {% for field in form %}
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                <label style="font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px;">{{ field.label }}</label>
-                {{ field }}
+            <div class="form-control">
+                <label style="font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 0.5rem; text-align: left;">{{ field.label }}</label>
+                <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" id="{{ field.id_for_label }}" placeholder="{{ field.label }}" style="width: 100%; padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); outline: none; transition: 0.3s;">
                 {% if field.errors %}
-                <span style="color: #ff4d4d; font-size: 0.8rem;">{{ field.errors.0 }}</span>
+                <span style="color: #ff4d4d; font-size: 0.8rem; display: block; margin-top: 0.5rem;">{{ field.errors.0 }}</span>
                 {% endif %}
             </div>
             {% endfor %}
             
-            <div style="margin-top: 1rem;">
-                <button type="submit" class="btn" style="width: 100%;">Send Message</button>
+            <div style="margin-top: 2rem;">
+                <button type="submit" class="btn-primary" style="width: 100%;">Send Message</button>
             </div>
         </form>
     </div>

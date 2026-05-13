@@ -153,37 +153,36 @@
 
     <div class="container">
         
-<section style="max-width: 700px; margin: 0 auto;">
+<section class="container">
     <h2 class="section-title">Get in <span>Touch</span></h2>
     
-    <div class="glass-card">
+    <div class="glass-card" style="max-width: 600px; margin: 0 auto; padding: 3rem;">
         <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">Have a project in mind or just want to say hi? Drop me a message below and I'll get back to you as soon as possible.</p>
         
         <form method="POST">
-            <input type="hidden" name="csrfmiddlewaretoken" value="lTHEQ79HqfXJoKDfOZb9KkyQX2oAfUOjGEQkv61QnBEwR9DAiIUmIzeoGuVuG1r4">
+            <input type="hidden" name="csrfmiddlewaretoken" value="E3Vm3o1SLNx49DjGiRzrxQsUzR6HWTeHQjnXZzOq8I7Dd2ig6ei6vtaknWAgP0EA">
             
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                <label style="font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px;">Name</label>
-                <input type="text" name="name" class="form-control" placeholder="Your Name" maxlength="100" required id="id_name">
+            <div class="form-control">
+                <label style="font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 0.5rem; text-align: left;">Name</label>
+                <input type="text" name="name" id="id_name" placeholder="Name" style="width: 100%; padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); outline: none; transition: 0.3s;">
                 
             </div>
             
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                <label style="font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px;">Email</label>
-                <input type="email" name="email" class="form-control" placeholder="Your Email" maxlength="320" required id="id_email">
+            <div class="form-control">
+                <label style="font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 0.5rem; text-align: left;">Email</label>
+                <input type="email" name="email" id="id_email" placeholder="Email" style="width: 100%; padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); outline: none; transition: 0.3s;">
                 
             </div>
             
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                <label style="font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px;">Message</label>
-                <textarea name="message" cols="40" rows="10" class="form-control" placeholder="Your Message" required id="id_message">
-</textarea>
+            <div class="form-control">
+                <label style="font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 0.5rem; text-align: left;">Message</label>
+                <input type="" name="message" id="id_message" placeholder="Message" style="width: 100%; padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); outline: none; transition: 0.3s;">
                 
             </div>
             
             
-            <div style="margin-top: 1rem;">
-                <button type="submit" class="btn" style="width: 100%;">Send Message</button>
+            <div style="margin-top: 2rem;">
+                <button type="submit" class="btn-primary" style="width: 100%;">Send Message</button>
             </div>
         </form>
     </div>
