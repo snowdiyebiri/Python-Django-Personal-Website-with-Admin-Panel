@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    
+        <link rel="icon" type="image/x-icon" href="/modern-dark/static/assets/favicon.svg">
+    
+    <link rel="stylesheet" href="/modern-dark/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        // Prevent layout flicker by initializing in <head>
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
+
+    <style>
+        :root {
+            /* Fallback Defaults */
+            --bg-color: #0c0c0e;
+            --bg-color-rgb: 12, 12, 14;
+            --accent: #a78bfa;
+            --accent-rgb: 167, 139, 250;
+            --card-bg: #161619;
+            --text-primary: #f4f4f5;
+            --text-secondary: #a1a1aa;
+            --bg-pattern-color: #ffffff;
+            --anim-speed: 0.6s;
+            --navbar-bg: rgba(var(--bg-color-rgb), 0.9);
+
+            
+            --bg-color: #0c0c0e;
+            --bg-color-rgb: 12, 12, 14;
+            --accent: #a78bfa;
+            --accent-rgb: 167, 139, 250;
+            --card-bg: #161619;
+            --text-primary: #f4f4f5;
+            --text-secondary: #a1a1aa;
+            --bg-pattern-color: #b5b5b5;
+            --bg-pattern-opacity: 0.11;
+            --anim-speed: 1.2s;
+            
+            
+            --container-width: 1640px;
+            --grid-min-width: 710px;
+            --card-radius: 24px;
+            --glass-blur: 15px;
+            --nav-padding-y: 0.8rem;
+            --section-padding-y: 0.0rem;
+            --hero-gap: 0.0rem;
+            --container-padding-top: 0.0rem;
+            
+        }
+        
+        /* Apply theme immediately to body */
+        body[data-theme='light'] { 
+            
+            --bg-color: #fafafa; 
+            --bg-color-rgb: 250, 250, 250;
+            --card-bg: #ffffff; 
+            --text-primary: #111827; 
+            --text-secondary: #4b5563; 
+            --accent: #8b5cf6; 
+            --accent-rgb: 139, 92, 246;
+            --bg-pattern-color: #e5e7eb;
+            
+            --navbar-bg: rgba(var(--bg-color-rgb), 0.9); 
+        }
+        
+        .lang-en, .lang-tr { display: none; }
+        body.lang-en .lang-en { display: inline !important; }
+        body.lang-tr .lang-tr { display: inline !important; }
+        
+        
+    </style>
+</head>
+<body data-theme="dark">
+    <script>document.body.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');</script>
+    <div class="bg-fixed-img"></div>
+    <div class="bg-overlay"></div>
+    <div class="bg-pattern-layer bg-dots"></div>
+    
+    <nav>
+        <div class="logo">
+            <a href="/modern-dark/index.html" class="logo-text">
+                <span class="logo-accent">PORT</span>FOLIO
+            </a>
+        </div>
+        <div class="nav-content">
+            <div class="nav-links">
+                <a href="/modern-dark/index.html">Home</a>
+                <a href="/modern-dark/projects/index.html">Projects</a>
+                <a href="/modern-dark/about/index.html">About</a>
+                <a href="/modern-dark/references/index.html">References</a>
+                <a href="/modern-dark/admin-preview/index.html">Admin</a>
+                <a href="/modern-dark/contact/index.html">Contact</a>
+            </div>
+            
+            <div class="search-nav-wrapper">
+                <button type="button" class="nav-btn" onclick="toggleTheme()" id="theme-toggle" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+
+                <!-- Theme Selector Dropdown -->
+                <div class="theme-dropdown">
+                    <button type="button" class="nav-btn" title="Select Site Theme">
+                        <i class="fas fa-palette"></i>
+                    </button>
+                    <div class="theme-dropdown-content">
+                        <div class="theme-dropdown-header">Site Themes</div>
+                        
+                            <a href="/projects/activate-theme/3/" class="theme-option active">
+                                <span class="theme-color-preview" style="background: #0c0c0e; border: 1px solid #a78bfa;"></span>
+                                Modern Dark
+                                <i class="fas fa-check"></i>
+                            </a>
+                        
+                            <a href="/projects/activate-theme/4/" class="theme-option ">
+                                <span class="theme-color-preview" style="background: #020617; border: 1px solid #38bdf8;"></span>
+                                Midnight Deep
+                                
+                            </a>
+                        
+                            <a href="/projects/activate-theme/5/" class="theme-option ">
+                                <span class="theme-color-preview" style="background: #061a11; border: 1px solid #10b981;"></span>
+                                Emerald Forest
+                                
+                            </a>
+                        
+                            <a href="/projects/activate-theme/6/" class="theme-option ">
+                                <span class="theme-color-preview" style="background: #1a1215; border: 1px solid #fb7185;"></span>
+                                Soft Rose
+                                
+                            </a>
+                        
+                    </div>
+                </div>
+
+                <button type="button" class="nav-btn" onclick="openSearch()" title="Open Search">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+
+            <!-- Search Overlay -->
+            <div id="search-overlay" class="search-overlay">
+                <button class="close-search" onclick="closeSearch()">&times;</button>
+                <div class="search-overlay-content">
+                    <form action="/projects/search/" method="get">
+                        <input type="text" name="q" placeholder="Type to search projects..." id="search-overlay-input" autocomplete="off">
+                        <p class="search-hint">Press Enter to search or ESC to close</p>
+                    </form>
+                </div>
+            </div>
+
+            <script>
+                function toggleTheme() {
+                    const body = document.body;
+                    const isLight = body.getAttribute('data-theme') === 'light';
+                    body.setAttribute('data-theme', isLight ? 'dark' : 'light');
+                    localStorage.setItem('theme', isLight ? 'dark' : 'light');
+                    document.getElementById('theme-toggle').innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+                }
+                
+                // Initialize Theme
+                const currentTheme = localStorage.getItem('theme') || 'dark';
+                document.body.setAttribute('data-theme', currentTheme);
+                document.getElementById('theme-toggle').innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+                
+                function openSearch() {
+                    document.getElementById('search-overlay').classList.add('active');
+                    setTimeout(() => document.getElementById('search-overlay-input').focus(), 100);
+                }
+
+                function closeSearch() {
+                    document.getElementById('search-overlay').classList.remove('active');
+                }
+
+                // Close on ESC
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') closeSearch();
+                });
+            </script>
+
+            <div class="social-nav">
+                
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+<section>
+    <h2 class="section-title">All <span>Projects</span></h2>
+    <div class="grid">
+        
+        <div class="glass-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+            
+            <div style="height: 200px; overflow: hidden;">
+                <img src="/modern-dark/media/project_images/p1_9ZPYufx.webp" alt="E-Commerce API" style="width: 100%; height: 100%; object-fit: cover; transition: 0.5s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            </div>
+            
+            <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column; gap: 1rem;">
+                <h3 style="margin: 0; color: var(--accent);">E-Commerce API</h3>
+                <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4;">Python, Django, DRF</p>
+                <div style="margin-top: auto;">
+                    <a href="/modern-dark/projects/e-commerce-api/index.html" class="btn-primary" style="padding: 0.8rem 1.5rem; font-size: 0.85rem; border-radius: 12px;">
+                        View Details
+                        <i class="fas fa-arrow-right" style="font-size: 0.7rem;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="glass-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+            
+            <div style="height: 200px; overflow: hidden;">
+                <img src="/modern-dark/media/project_images/p2_8pgVjwq.webp" alt="AI Image Generator" style="width: 100%; height: 100%; object-fit: cover; transition: 0.5s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            </div>
+            
+            <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column; gap: 1rem;">
+                <h3 style="margin: 0; color: var(--accent);">AI Image Generator</h3>
+                <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4;">Python, React, OpenAI</p>
+                <div style="margin-top: auto;">
+                    <a href="/modern-dark/projects/ai-image-generator/index.html" class="btn-primary" style="padding: 0.8rem 1.5rem; font-size: 0.85rem; border-radius: 12px;">
+                        View Details
+                        <i class="fas fa-arrow-right" style="font-size: 0.7rem;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="glass-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+            
+            <div style="height: 200px; overflow: hidden;">
+                <img src="/modern-dark/media/project_images/p3_e0MD4SL.webp" alt="Task Management System" style="width: 100%; height: 100%; object-fit: cover; transition: 0.5s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            </div>
+            
+            <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column; gap: 1rem;">
+                <h3 style="margin: 0; color: var(--accent);">Task Management System</h3>
+                <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4;">Django, Channels, Redis</p>
+                <div style="margin-top: auto;">
+                    <a href="/modern-dark/projects/task-management-system/index.html" class="btn-primary" style="padding: 0.8rem 1.5rem; font-size: 0.85rem; border-radius: 12px;">
+                        View Details
+                        <i class="fas fa-arrow-right" style="font-size: 0.7rem;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="glass-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+            
+            <div style="height: 200px; overflow: hidden;">
+                <img src="/modern-dark/media/project_images/p1_yFTowX0.webp" alt="Portfolio Template" style="width: 100%; height: 100%; object-fit: cover; transition: 0.5s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            </div>
+            
+            <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column; gap: 1rem;">
+                <h3 style="margin: 0; color: var(--accent);">Portfolio Template</h3>
+                <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4;">Django, Vanilla CSS</p>
+                <div style="margin-top: auto;">
+                    <a href="/modern-dark/projects/portfolio-template/index.html" class="btn-primary" style="padding: 0.8rem 1.5rem; font-size: 0.85rem; border-radius: 12px;">
+                        View Details
+                        <i class="fas fa-arrow-right" style="font-size: 0.7rem;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="glass-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+            
+            <div style="height: 200px; overflow: hidden;">
+                <img src="/modern-dark/media/project_images/p2_KURp314.webp" alt="Finance Tracker" style="width: 100%; height: 100%; object-fit: cover; transition: 0.5s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            </div>
+            
+            <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column; gap: 1rem;">
+                <h3 style="margin: 0; color: var(--accent);">Finance Tracker</h3>
+                <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4;">Python, Pandas, Chart.js</p>
+                <div style="margin-top: auto;">
+                    <a href="/modern-dark/projects/finance-tracker/index.html" class="btn-primary" style="padding: 0.8rem 1.5rem; font-size: 0.85rem; border-radius: 12px;">
+                        View Details
+                        <i class="fas fa-arrow-right" style="font-size: 0.7rem;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="glass-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+            
+            <div style="height: 200px; overflow: hidden;">
+                <img src="/modern-dark/media/project_images/p3_9M822HH.webp" alt="Blog Platform" style="width: 100%; height: 100%; object-fit: cover; transition: 0.5s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            </div>
+            
+            <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column; gap: 1rem;">
+                <h3 style="margin: 0; color: var(--accent);">Blog Platform</h3>
+                <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4;">Django, PostgreSQL</p>
+                <div style="margin-top: auto;">
+                    <a href="/modern-dark/projects/blog-platform/index.html" class="btn-primary" style="padding: 0.8rem 1.5rem; font-size: 0.85rem; border-radius: 12px;">
+                        View Details
+                        <i class="fas fa-arrow-right" style="font-size: 0.7rem;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</section>
+
+    </div>
+
+    <footer class="watermark-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 <b>SERHAT ÇAM</b>. Crafted with Django &amp; Passion.</p>
+        </div>
+    </footer>
+</body>
+</html>
