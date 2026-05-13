@@ -27,13 +27,12 @@ for slug in PROJECT_SLUGS:
 
 def get_relative_prefix(path_str):
     if not path_str or path_str == "":
-        return ""
-    # Count levels of depth to reach root from path_str
-    # e.g., projects/ai-image-generator/ -> depth 2, need ../../
-    depth = path_str.strip("/").count("/")
-    if depth == 0:
         return "./"
-    return "../" * depth
+    # Count slashes to determine depth
+    depth = path_str.strip("/").count("/")
+    # If path is projects/e-commerce-api/ (2 slashes)
+    # We need ../../ to reach root (depth 0)
+    return "../" * (depth + 1)
 
 def fix_links(html, current_path):
     prefix = get_relative_prefix(current_path)
