@@ -25,52 +25,39 @@ PROJECT_SLUGS = ['e-commerce-api', 'ai-image-generator', 'task-management-system
 for slug in PROJECT_SLUGS:
     PATHS.append(f"projects/{slug}/")
 
-def fix_links(html, current_path, theme_dir=""):
-    # Always use root-relative paths starting with /theme-dir/
-    theme_prefix = f"/{theme_dir}"
-
-    # Fix static and media
-    html = html.replace('href="/static/', f'href="{theme_prefix}/static/')
-    html = html.replace('src="/static/', f'src="{theme_prefix}/static/')
-    html = html.replace('href="/media/', f'href="{theme_prefix}/media/')
-    html = html.replace('src="/media/', f'src="{theme_prefix}/media/')
+def fix_links(html):
+    # Fix static and media: point to root-relative path
+    html = html.replace('href="/static/', 'href="/static/')
+    html = html.replace('src="/static/', 'src="/static/')
+    html = html.replace('href="/media/', 'href="/media/')
+    html = html.replace('src="/media/', 'src="/media/')
     
-    # Fix internal links: ensure all internal site links point to /theme-dir/path/index.html
+    # Fix internal links
     for p in PATHS:
-        # Match links starting with /p (e.g., href="/about/")
         old_link = f'href="/{p}"'
-        # Point to /theme-dir/p/index.html
-        target = f"{theme_prefix}/{p}index.html"
+        target = f"/{p}index.html"
         new_link = f'href="{target}"'
         
-        # Special case for root
         if p == "":
             old_link = 'href="/"'
-            new_link = f'href="{theme_prefix}/index.html"'
+            new_link = 'href="/index.html"'
             
         html = html.replace(old_link, new_link)
         
     return html
 
-def generate_for_theme(theme):
-    print(f"Generating site for theme: {theme.name}...")
-    
-    # Activate theme
-    ThemeSettings.objects.all().update(is_active=False)
-    theme.is_active = True
-    theme.save()
-    
-    theme_dir = theme.name.lower().replace(" ", "-")
-    theme_folder = OUTPUT_DIR / theme_dir
-    theme_folder.mkdir(parents=True, exist_ok=True)
+def main():
+    if OUTPUT_DIR.exists():
+        shutil.rmtree(OUTPUT_DIR)
+    OUTPUT_DIR.mkdir()
     
     for path in PATHS:
         url = f"{BASE_URL}/{path}"
         try:
             with urllib.request.urlopen(url) as response:
                 html = response.read().decode('utf-8')
-                html = fix_links(html, path, theme_dir=theme_dir)
-                target_dir = theme_folder / path
+                html = fix_links(html)
+                target_dir = OUTPUT_DIR / path
                 target_dir.mkdir(parents=True, exist_ok=True)
                 with open(target_dir / "index.html", "w", encoding="utf-8") as f:
                     f.write(html)
@@ -78,29 +65,11 @@ def generate_for_theme(theme):
             print(f"Error fetching {url}: {e}")
 
     # Copy static and media
-    if (theme_folder / "static").exists():
-        shutil.rmtree(theme_folder / "static")
-    shutil.copytree("static", theme_folder / "static")
+    shutil.copytree("static", OUTPUT_DIR / "static")
     if Path("media").exists():
-        if (theme_folder / "media").exists():
-            shutil.rmtree(theme_folder / "media")
-        shutil.copytree("media", theme_folder / "media")
+        shutil.copytree("media", OUTPUT_DIR / "media")
 
-def main():
-    if OUTPUT_DIR.exists():
-        # Remove only the generated content subfolders, keeping root if needed
-        for item in OUTPUT_DIR.iterdir():
-            if item.is_dir():
-                shutil.rmtree(item)
-    OUTPUT_DIR.mkdir(exist_ok=True)
-
-    themes = ThemeSettings.objects.all()
-    for theme in themes:
-        generate_for_theme(theme)
-
-    # Add .nojekyll
     (OUTPUT_DIR / ".nojekyll").touch()
-    
     print(f"Static site generated in {OUTPUT_DIR}/")
 
 if __name__ == "__main__":
