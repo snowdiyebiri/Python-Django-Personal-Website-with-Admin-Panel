@@ -26,22 +26,33 @@ for slug in PROJECT_SLUGS:
     PATHS.append(f"projects/{slug}/")
 
 def fix_links(html, current_path, theme_dir=""):
-    # Ensure theme_dir starts with a slash if provided
-    theme_prefix = f"/{theme_dir}" if theme_dir else ""
-    
-    # Fix static and media: point to root-relative path
-    html = html.replace('href="/static/', f'href="{theme_prefix}/static/')
-    html = html.replace('src="/static/', f'src="{theme_prefix}/static/')
-    html = html.replace('href="/media/', f'href="{theme_prefix}/media/')
-    html = html.replace('src="/media/', f'src="{theme_prefix}/media/')
+    # Calculate how many folders deep we are
+    depth = current_path.strip("/").count("/")
+    # If the path is empty, depth is 0
+    if not current_path.strip("/"):
+        depth = 0
+        
+    prefix = "../" * depth
+    if depth == 0:
+        prefix = "./"
+
+    # Fix static and media: point to theme folder relative
+    html = html.replace('href="/static/', f'href="{prefix}static/')
+    html = html.replace('src="/static/', f'src="{prefix}static/')
+    html = html.replace('href="/media/', f'href="{prefix}media/')
+    html = html.replace('src="/media/', f'src="{prefix}media/')
     
     # Fix internal links
     for p in PATHS:
         old_link = f'href="/{p}"'
-        new_link = f'href="{theme_prefix}/{p}index.html"'
-        if p == "":
-             old_link = 'href="/"'
-             new_link = f'href="{theme_prefix}/index.html"'
+        # Construct relative link: index.html at destination
+        target_path = f"{p}index.html" if p else "index.html"
+        
+        # This is a bit simplistic, might need adjustment for deep nesting
+        # But let's try the relative path logic first
+        relative_path = os.path.relpath(target_path, current_path.strip("/") if current_path else ".")
+        new_link = f'href="{relative_path}"'
+        
         html = html.replace(old_link, new_link)
         
     return html
