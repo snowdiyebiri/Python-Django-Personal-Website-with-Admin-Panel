@@ -58,3 +58,18 @@ git commit -m "Deploy static site"
 git push origin main
 ```
 *Ensure your GitHub repository settings are configured to serve pages from the `/docs` folder.*
+
+## Optional: HTTPS Development
+If you need to test features that require HTTPS (e.g., service workers, geolocation), you can use the included `proxy_server.py`. 
+
+**Requirements:**
+1. Generate your own SSL certificate (`cert.crt`) and key (`cert.key`) on your machine:
+   ```bash
+   openssl req -x509 -newkey rsa:4096 -keyout cert.key -out cert.crt -days 365 -nodes
+   ```
+2. Update the file paths in `proxy_server.py` to point to your new `cert.crt` and `cert.key` files.
+3. Run the proxy:
+   ```bash
+   python proxy_server.py
+   ```
+This will start your Django server on port 8000 and expose it via HTTPS on port 443.
