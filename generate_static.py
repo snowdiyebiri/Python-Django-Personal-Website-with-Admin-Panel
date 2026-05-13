@@ -25,25 +25,29 @@ PROJECT_SLUGS = ['e-commerce-api', 'ai-image-generator', 'task-management-system
 for slug in PROJECT_SLUGS:
     PATHS.append(f"projects/{slug}/")
 
-def fix_links(html, theme_dir):
-    # Always use root-relative paths starting with /theme-dir/
-    theme_prefix = f"/{theme_dir}"
-
-    # Fix static and media
-    html = html.replace('href="/static/', f'href="{theme_prefix}/static/')
-    html = html.replace('src="/static/', f'src="{theme_prefix}/static/')
-    html = html.replace('href="/media/', f'href="{theme_prefix}/media/')
-    html = html.replace('src="/media/', f'src="{theme_prefix}/media/')
+def fix_links(html, full_path, theme_dir):
+    # full_path is e.g. "projects/slug/"
+    # theme_dir is "modern-dark"
+    # depth is segments of "modern-dark/projects/slug/"
+    path_segments = [theme_dir] + [p for p in full_path.strip('/').split('/') if p]
+    depth = len(path_segments)
+    prefix = "../" * depth
     
-    # Fix internal links
+    # Fix static/media/internal links using prefix
+    html = html.replace('href="/static/', f'href="{prefix}static/')
+    html = html.replace('src="/static/', f'src="{prefix}static/')
+    html = html.replace('href="/media/', f'href="{prefix}media/')
+    html = html.replace('src="/media/', f'src="{prefix}media/')
+    
     for p in PATHS:
         old_link = f'href="/{p}"'
-        target = f"{theme_prefix}/{p}index.html"
+        # Target is at root: ../../.. + p + index.html
+        target = f"{prefix}{p}index.html"
         new_link = f'href="{target}"'
         
         if p == "":
             old_link = 'href="/"'
-            new_link = f'href="{theme_prefix}/index.html"'
+            new_link = f'href="{prefix}index.html"'
             
         html = html.replace(old_link, new_link)
         
@@ -66,7 +70,7 @@ def generate_for_theme(theme):
         try:
             with urllib.request.urlopen(url) as response:
                 html = response.read().decode('utf-8')
-                html = fix_links(html, theme_dir)
+                html = fix_links(html, path, theme_dir)
                 target_dir = theme_folder / path
                 target_dir.mkdir(parents=True, exist_ok=True)
                 with open(target_dir / "index.html", "w", encoding="utf-8") as f:
