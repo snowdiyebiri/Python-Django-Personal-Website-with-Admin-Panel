@@ -25,8 +25,8 @@ The project uses a powerful **Site Configuration** and **Theme Settings** system
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
-   cd <project-directory>
+   git clone [<repository-url>](https://github.com/snowdiyebiri/Python-Django-Personal-Website-with-Admin-Panel)
+   cd Python-Django-Personal-Website-with-Admin-Panel)
    ```
 
 2. **Install dependencies:**
