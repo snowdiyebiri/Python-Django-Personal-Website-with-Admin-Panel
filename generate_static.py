@@ -25,27 +25,23 @@ PROJECT_SLUGS = ['e-commerce-api', 'ai-image-generator', 'task-management-system
 for slug in PROJECT_SLUGS:
     PATHS.append(f"projects/{slug}/")
 
-def get_relative_prefix(path_str):
-    if not path_str or path_str == "":
-        return ""
-    depth = path_str.strip("/").count("/") + 1
-    return "../" * depth
-
 def fix_links(html, current_path, theme_dir=""):
-    prefix = get_relative_prefix(current_path)
-    # Fix static and media
-    html = html.replace('href="/static/', f'href="{prefix}static/')
-    html = html.replace('src="/static/', f'src="{prefix}static/')
-    html = html.replace('href="/media/', f'href="{prefix}media/')
-    html = html.replace('src="/media/', f'src="{prefix}media/')
+    # Ensure theme_dir starts with a slash if provided
+    theme_prefix = f"/{theme_dir}" if theme_dir else ""
+    
+    # Fix static and media: point to root-relative path
+    html = html.replace('href="/static/', f'href="{theme_prefix}/static/')
+    html = html.replace('src="/static/', f'src="{theme_prefix}/static/')
+    html = html.replace('href="/media/', f'href="{theme_prefix}/media/')
+    html = html.replace('src="/media/', f'src="{theme_prefix}/media/')
     
     # Fix internal links
     for p in PATHS:
         old_link = f'href="/{p}"'
-        new_link = f'href="{prefix}{p}index.html"'
+        new_link = f'href="{theme_prefix}/{p}index.html"'
         if p == "":
              old_link = 'href="/"'
-             new_link = f'href="{prefix}index.html"'
+             new_link = f'href="{theme_prefix}/index.html"'
         html = html.replace(old_link, new_link)
         
     return html
@@ -58,7 +54,8 @@ def generate_for_theme(theme):
     theme.is_active = True
     theme.save()
     
-    theme_folder = OUTPUT_DIR / theme.name.lower().replace(" ", "-")
+    theme_dir = theme.name.lower().replace(" ", "-")
+    theme_folder = OUTPUT_DIR / theme_dir
     theme_folder.mkdir(parents=True, exist_ok=True)
     
     for path in PATHS:
@@ -66,7 +63,7 @@ def generate_for_theme(theme):
         try:
             with urllib.request.urlopen(url) as response:
                 html = response.read().decode('utf-8')
-                html = fix_links(html, path)
+                html = fix_links(html, path, theme_dir=theme_dir)
                 target_dir = theme_folder / path
                 target_dir.mkdir(parents=True, exist_ok=True)
                 with open(target_dir / "index.html", "w", encoding="utf-8") as f:
@@ -75,9 +72,12 @@ def generate_for_theme(theme):
             print(f"Error fetching {url}: {e}")
 
     # Copy static and media
-    if not (theme_folder / "static").exists():
-        shutil.copytree("static", theme_folder / "static")
-    if Path("media").exists() and not (theme_folder / "media").exists():
+    if (theme_folder / "static").exists():
+        shutil.rmtree(theme_folder / "static")
+    shutil.copytree("static", theme_folder / "static")
+    if Path("media").exists():
+        if (theme_folder / "media").exists():
+            shutil.rmtree(theme_folder / "media")
         shutil.copytree("media", theme_folder / "media")
 
 def main():
