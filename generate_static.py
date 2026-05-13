@@ -48,9 +48,9 @@ def fix_links(html, current_path, theme_dir=""):
         # Construct relative link: index.html at destination
         target_path = f"{p}index.html" if p else "index.html"
         
-        # This is a bit simplistic, might need adjustment for deep nesting
-        # But let's try the relative path logic first
+        # Use forward slashes for URL paths, relpath might return backslashes on Windows
         relative_path = os.path.relpath(target_path, current_path.strip("/") if current_path else ".")
+        relative_path = relative_path.replace(os.sep, '/')
         new_link = f'href="{relative_path}"'
         
         html = html.replace(old_link, new_link)
