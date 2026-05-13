@@ -2,7 +2,7 @@
 
 {% block content %}
 <section>
-    <h2 class="section-title">All <span>Projects</span></h2>
+    <h2 class="section-title">{% if site %}{{ site.projects_title_prefix }}{% else %}All{% endif %} <span>{% if site %}{{ site.projects_title_highlight }}{% else %}Projects{% endif %}</span></h2>
     <div class="grid">
         {% for project in projects %}
         <div class="glass-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
@@ -15,7 +15,10 @@
                 <h3 style="margin: 0; color: var(--accent);">{{ project.title }}</h3>
                 <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4;">{{ project.technology }}</p>
                 <div style="margin-top: auto;">
-                    <a href="{% url 'project_detail' project.pk %}" class="btn" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">View Details</a>
+                    <a href="{% url 'project_detail' project.slug %}" class="btn-primary" style="padding: 0.8rem 1.5rem; font-size: 0.85rem; border-radius: 12px;">
+                        View Details
+                        <i class="fas fa-arrow-right" style="font-size: 0.7rem;"></i>
+                    </a>
                 </div>
             </div>
         </div>

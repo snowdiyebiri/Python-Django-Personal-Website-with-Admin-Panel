@@ -16,11 +16,17 @@
             {{ project.description|linebreaks }}
         </div>
 
-        <div style="display: flex; gap: 1.5rem; align-items: center;">
+        <div style="display: flex; gap: 1.5rem; align-items: center; justify-content: center; margin-top: 1rem;">
             {% if project.link %}
-            <a href="{{ project.link }}" class="btn" target="_blank">Launch Project</a>
+            <a href="{{ project.link }}" class="btn-primary" target="_blank">
+                Launch Project
+                <i class="fas fa-external-link-alt" style="font-size: 0.8rem;"></i>
+            </a>
             {% endif %}
-            <a href="{% url 'project_index' %}" style="color: var(--text-secondary); text-decoration: none; font-weight: bold; font-size: 0.9rem;">← Back to Projects</a>
+            <a href="{% url 'project_index' %}" class="btn-outline" style="padding: 1rem 2rem;">
+                <i class="fas fa-chevron-left" style="font-size: 0.8rem; margin-right: 8px;"></i>
+                Back to Projects
+            </a>
         </div>
     </div>
 </section>

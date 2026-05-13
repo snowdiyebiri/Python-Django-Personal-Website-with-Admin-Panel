@@ -2,7 +2,7 @@
 
 {% block content %}
 <section id="references" style="padding: 2rem 0;">
-    <h2 class="section-title">Professional <span>References</span></h2>
+    <h2 class="section-title">{% if site %}{{ site.references_title_prefix }}{% else %}Kind{% endif %} <span>{% if site %}{{ site.references_title_highlight }}{% else %}Words{% endif %}</span></h2>
     <p style="color: var(--text-secondary); margin-bottom: 3rem; max-width: 600px;">
         Here are some testimonials and professional references from clients and colleagues I've had the pleasure of working with.
     </p>

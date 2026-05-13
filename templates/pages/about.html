@@ -1,24 +1,126 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-<section style="max-width: 900px; margin: 0 auto;">
-    <h2 class="section-title">About <span>Me</span></h2>
-    
-    <div class="glass-card">
-        {% if about %}
-        <h3 style="margin-top: 0; color: var(--accent); font-size: 1.5rem;">{{ about.subtitle }}</h3>
-        <div style="color: var(--text-primary); line-height: 1.8; font-size: 1.1rem; margin-top: 1.5rem;">
-            <p><b>Summary:</b> {{ about.summary }}</p>
-            <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.05); margin: 2rem 0;">
-            <p>{{ about.biography|linebreaks }}</p>
-        </div>
-        {% else %}
-        <p style="color: var(--muted); text-align: center;">Bio content coming soon. Please update in the Admin panel.</p>
-        {% endif %}
-    </div>
+<div class="about-v2">
+    <section class="about-hero">
+        <div class="about-grid">
+            <!-- Left: Visual/Profile Area -->
+            <div class="about-visual">
+                <div class="profile-card-v2">
+                    <div class="profile-glow"></div>
+                    <div class="profile-frame">
+                        {% if about.image %}
+                        <img src="{{ about.image.url }}" alt="{{ about.title }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
+                        {% else %}
+                        <div class="profile-initials">{{ about.title|make_list|first }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="profile-info">
+                        <h3>{{ about.title }}</h3>
+                        <p>{{ about.subtitle }}</p>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="p-stat"><span>{{ about.years_of_experience }}+</span> Years</div>
+                        <div class="p-stat"><span>{{ project_count }}+</span> Projects</div>
+                    </div>
+                </div>
+            </div>
 
-    <div style="margin-top: 3rem; text-align: center;">
-        <a href="{% url 'contact' %}" class="btn">Get In Touch</a>
-    </div>
-</section>
+            <!-- Right: Content Area -->
+            <div class="about-text-content">
+                {% if about %}
+                <span class="sub-label">My Story</span>
+                <h1 class="main-title">{{ about.title }}</h1>
+                <h2 class="subtitle-v2 gradient-text">{{ about.subtitle }}</h2>
+                
+                <p class="summary-v2">{{ about.summary }}</p>
+                
+                <div class="bio-v2">
+                    {{ about.biography|linebreaks }}
+                </div>
+
+                <div class="action-row">
+                    <a href="{% url 'contact' %}" class="btn-primary">
+                        Work Together
+                        <i class="fas fa-paper-plane"></i>
+                    </a>
+                    <a href="{% url 'project_index' %}" class="btn-outline">
+                        View Portfolio
+                        <i class="fas fa-arrow-right" style="margin-left: 8px; font-size: 0.8rem;"></i>
+                    </a>
+                </div>
+                {% else %}
+                <div class="glass-card" style="padding: 3rem; text-align: center;">
+                    <p style="color: var(--text-secondary);">Content is being updated. Please check back soon!</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+    .about-v2 { padding: 4rem 0; text-align: left; }
+    .about-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 6rem; align-items: start; }
+
+    /* Profile Card V2 */
+    .about-visual { position: sticky; top: 120px; }
+    .profile-card-v2 {
+        background: var(--card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 40px;
+        padding: 3rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    }
+    .profile-glow {
+        position: absolute;
+        top: -50%; left: -50%; width: 200%; height: 200%;
+        background: radial-gradient(circle, rgba(var(--accent-rgb), 0.1) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    .profile-frame {
+        width: 160px; height: 160px;
+        background: linear-gradient(135deg, var(--accent), #fff);
+        border-radius: 35% 65% 70% 30% / 30% 30% 70% 70%;
+        margin: 0 auto 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: morph 8s ease-in-out infinite;
+        box-shadow: 0 0 40px rgba(var(--accent-rgb), 0.3);
+    }
+    .profile-initials { font-size: 3.5rem; font-weight: 900; color: #000; letter-spacing: -2px; }
+    
+    @keyframes morph {
+        0%, 100% { border-radius: 35% 65% 70% 30% / 30% 30% 70% 70%; }
+        50% { border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%; }
+    }
+
+    .profile-info h3 { font-size: 1.8rem; margin: 0; font-weight: 800; color: #fff; }
+    .profile-info p { color: var(--accent); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; margin-top: 0.5rem; }
+
+    .profile-stats { display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    .p-stat { font-size: 0.8rem; color: var(--text-secondary); font-weight: 600; }
+    .p-stat span { display: block; font-size: 1.2rem; color: #fff; font-weight: 800; }
+
+    /* Content Styling */
+    .about-text-content { display: flex; flex-direction: column; gap: 1.8rem; }
+    .sub-label { color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 3px; font-size: 0.75rem; }
+    .subtitle-v2 { font-size: 2.2rem; font-weight: 800; margin: 0; line-height: 1.2; }
+    .summary-v2 { font-size: 1.35rem; color: #fff; line-height: 1.6; font-weight: 500; opacity: 0.95; }
+    .bio-v2 { font-size: 1.1rem; color: var(--text-secondary); line-height: 1.8; }
+    .bio-v2 p { margin-bottom: 1.5rem; }
+
+    @media (max-width: 1024px) {
+        .about-grid { grid-template-columns: 1fr; gap: 4rem; text-align: center; }
+        .about-visual { position: relative; top: 0; }
+        .about-text-content { align-items: center; }
+        .profile-card-v2 { max-width: 400px; margin: 0 auto; }
+        .action-row { justify-content: center; }
+    }
+</style>
 {% endblock %}

@@ -2,10 +2,10 @@
 
 {% block content %}
 <section style="max-width: 700px; margin: 0 auto;">
-    <h2 class="section-title">Get in <span>Touch</span></h2>
+    <h2 class="section-title">{% if site %}{{ site.contact_title_prefix }}{% else %}Get in{% endif %} <span>{% if site %}{{ site.contact_title_highlight }}{% else %}Touch{% endif %}</span></h2>
     
     <div class="glass-card">
-        <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">Have a project in mind or just want to say hi? Drop me a message below and I'll get back to you as soon as possible.</p>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">{% if site %}{{ site.contact_description }}{% else %}Have a project in mind or just want to say hi? Drop me a message below and I'll get back to you as soon as possible.{% endif %}</p>
         
         <form method="POST">
             {% csrf_token %}

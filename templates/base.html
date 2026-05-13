@@ -1,4 +1,4 @@
-{% load static %}
+{% load static l10n theme_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +11,7 @@
         <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.svg' %}">
     {% endif %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <script>
         // Prevent layout flicker by initializing in <head>
@@ -21,19 +21,70 @@
 
     <style>
         :root {
+            /* Fallback Defaults */
+            --bg-color: #0c0c0e;
+            --bg-color-rgb: 12, 12, 14;
+            --accent: #a78bfa;
+            --accent-rgb: 167, 139, 250;
+            --card-bg: #161619;
+            --text-primary: #f4f4f5;
+            --text-secondary: #a1a1aa;
+            --bg-pattern-color: #ffffff;
+            --anim-speed: 0.6s;
+            --navbar-bg: rgba(var(--bg-color-rgb), 0.9);
+
             {% if theme %}
             --bg-color: {{ theme.bg_color }};
+            --bg-color-rgb: {{ theme.bg_color|hex_to_rgb }};
             --accent: {{ theme.accent_color }};
+            --accent-rgb: {{ theme.accent_color|hex_to_rgb }};
             --card-bg: {{ theme.card_color }};
             --text-primary: {{ theme.text_color }};
+            --text-secondary: {{ theme.text_secondary_color }};
             --bg-pattern-color: {{ theme.bg_pattern_color }};
-            --bg-pattern-opacity: {{ theme.bg_pattern_opacity }};
-            --anim-speed: {{ theme.anim_speed }}s;
+            --bg-pattern-opacity: {{ theme.bg_pattern_opacity|unlocalize }};
+            --anim-speed: {{ theme.anim_speed|unlocalize }}s;
+            {% endif %}
+            {% if site %}
+            --container-width: {{ site.container_width|unlocalize }}px;
+            --grid-min-width: {{ site.grid_column_width|unlocalize }}px;
+            --card-radius: {{ site.card_border_radius|unlocalize }}px;
+            --glass-blur: {{ site.glass_blur|unlocalize }}px;
+            --nav-padding-y: {{ site.nav_padding_y|unlocalize }}rem;
+            --section-padding-y: {{ site.section_padding_y|unlocalize }}rem;
+            --hero-gap: {{ site.hero_gap|unlocalize }}rem;
+            --container-padding-top: {{ site.container_padding_top|unlocalize }}rem;
+            {% else %}
+            --nav-padding-y: 0.8rem;
+            --section-padding-y: 3.0rem;
+            --hero-gap: 3.0rem;
+            --container-padding-top: 2.0rem;
             {% endif %}
         }
         
         /* Apply theme immediately to body */
-        body[data-theme='light'] { --bg-color: #ffffff; --card-bg: #f4f4f5; --text-primary: #18181b; --text-secondary: #52525b; --accent: #7c3aed; --navbar-bg: rgba(255, 255, 255, 0.9); }
+        body[data-theme='light'] { 
+            {% if theme %}
+            --bg-color: {{ theme.light_bg_color }}; 
+            --bg-color-rgb: {{ theme.light_bg_color|hex_to_rgb }};
+            --card-bg: {{ theme.light_card_color }}; 
+            --text-primary: {{ theme.light_text_color }}; 
+            --text-secondary: {{ theme.light_text_secondary_color }}; 
+            --accent: {{ theme.light_accent_color }}; 
+            --accent-rgb: {{ theme.light_accent_color|hex_to_rgb }};
+            --bg-pattern-color: {{ theme.light_bg_pattern_color }};
+            {% else %}
+            --bg-color: #ffffff; 
+            --bg-color-rgb: 255, 255, 255;
+            --card-bg: #f4f4f5; 
+            --text-primary: #18181b; 
+            --text-secondary: #52525b; 
+            --accent: #7c3aed; 
+            --accent-rgb: 124, 58, 237;
+            --bg-pattern-color: #000000;
+            {% endif %}
+            --navbar-bg: rgba(var(--bg-color-rgb), 0.9); 
+        }
         
         .lang-en, .lang-tr { display: none; }
         body.lang-en .lang-en { display: inline !important; }
@@ -43,50 +94,73 @@
         .bg-fixed-img {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2;
+            z-index: -3;
             background-image: url('{{ theme.bg_image.url }}');
             background-size: cover;
             background-position: center;
-            filter: blur({{ theme.bg_image_blur }}px) brightness({{ theme.bg_image_brightness }});
+            filter: blur({{ theme.bg_image_blur|unlocalize }}px) brightness({{ theme.bg_image_brightness|unlocalize }});
         }
         {% endif %}
     </style>
 </head>
-<body class="{% if theme %}{% if theme.bg_pattern == 'dots' %}bg-dots{% elif theme.bg_pattern == 'grid' %}bg-grid{% endif %}{% endif %}" data-theme="dark">
+<body data-theme="dark">
     <script>document.body.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');</script>
     <div class="bg-fixed-img"></div>
     <div class="bg-overlay"></div>
+    <div class="bg-pattern-layer {% if theme %}{% if theme.bg_pattern == 'dots' %}bg-dots{% elif theme.bg_pattern == 'grid' %}bg-grid{% endif %}{% endif %}"></div>
     
     <nav>
         <div class="logo">
-            <a href="{% url 'home' %}">
-                {% if theme and theme.logo %}
-                    <img src="{{ theme.logo.url }}" alt="Logo" style="height: 40px; width: auto; object-fit: contain;">
-                {% else %}
-                    <img src="{% static 'assets/logo.svg' %}" alt="Logo" style="height: 40px; width: auto; object-fit: contain;">
-                {% endif %}
+            <a href="{% url 'home' %}" class="logo-text">
+                <span class="logo-accent">{% if site %}{{ site.logo_part_1 }}{% else %}PORT{% endif %}</span>{% if site %}{{ site.logo_part_2 }}{% else %}FOLIO{% endif %}
             </a>
         </div>
         <div class="nav-content">
             <div class="nav-links">
-                <a href="{% url 'home' %}">Home</a>
-                <a href="{% url 'project_index' %}">Projects</a>
-                <a href="{% url 'about' %}">About</a>
-                <a href="{% url 'references' %}">References</a>
-                <a href="{% url 'admin_preview' %}">Admin</a>
-                <a href="{% url 'contact' %}">Contact</a>
+                <a href="{% url 'home' %}">{% if site %}{{ site.nav_home }}{% else %}Home{% endif %}</a>
+                <a href="{% url 'project_index' %}">{% if site %}{{ site.nav_projects }}{% else %}Projects{% endif %}</a>
+                <a href="{% url 'about' %}">{% if site %}{{ site.nav_about }}{% else %}About{% endif %}</a>
+                <a href="{% url 'references' %}">{% if site %}{{ site.nav_references }}{% else %}References{% endif %}</a>
+                <a href="{% url 'admin_preview' %}">{% if site %}{{ site.nav_admin }}{% else %}Admin{% endif %}</a>
+                <a href="{% url 'contact' %}">{% if site %}{{ site.nav_contact }}{% else %}Contact{% endif %}</a>
             </div>
             
             <div class="search-nav-wrapper">
-                <button type="button" class="nav-btn" onclick="toggleTheme()" id="theme-toggle">
+                <button type="button" class="nav-btn" onclick="toggleTheme()" id="theme-toggle" title="Toggle Theme">
                     <i class="fas fa-moon"></i>
                 </button>
-                <button type="button" class="nav-btn" onclick="toggleSearch()">
+
+                <!-- Theme Selector Dropdown -->
+                <div class="theme-dropdown">
+                    <button type="button" class="nav-btn" title="Select Site Theme">
+                        <i class="fas fa-palette"></i>
+                    </button>
+                    <div class="theme-dropdown-content">
+                        <div class="theme-dropdown-header">Site Themes</div>
+                        {% for t in all_themes %}
+                            <a href="{% url 'activate_theme' t.id %}" class="theme-option {% if theme.id == t.id %}active{% endif %}">
+                                <span class="theme-color-preview" style="background: {{ t.bg_color }}; border: 1px solid {{ t.accent_color }};"></span>
+                                {{ t.name }}
+                                {% if theme.id == t.id %}<i class="fas fa-check"></i>{% endif %}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <button type="button" class="nav-btn" onclick="openSearch()" title="Open Search">
                     <i class="fas fa-search"></i>
                 </button>
-                <form action="{% url 'search' %}" method="get" class="search-nav-form" id="search-nav-form">
-                    <input type="text" name="q" placeholder="Search..." class="search-input" id="search-input">
-                </form>
+            </div>
+
+            <!-- Search Overlay -->
+            <div id="search-overlay" class="search-overlay">
+                <button class="close-search" onclick="closeSearch()">&times;</button>
+                <div class="search-overlay-content">
+                    <form action="{% url 'search' %}" method="get">
+                        <input type="text" name="q" placeholder="Type to search projects..." id="search-overlay-input" autocomplete="off">
+                        <p class="search-hint">Press Enter to search or ESC to close</p>
+                    </form>
+                </div>
             </div>
 
             <script>
@@ -99,18 +173,23 @@
                 }
                 
                 // Initialize Theme
-                const savedTheme = localStorage.getItem('theme') || 'dark';
-                document.body.setAttribute('data-theme', savedTheme);
-                document.getElementById('theme-toggle').innerHTML = savedTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+                const currentTheme = localStorage.getItem('theme') || 'dark';
+                document.body.setAttribute('data-theme', currentTheme);
+                document.getElementById('theme-toggle').innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
                 
-                function toggleSearch() {
-                    const form = document.getElementById('search-nav-form');
-                    const input = document.getElementById('search-input');
-                    form.classList.toggle('active');
-                    if (form.classList.contains('active')) {
-                        input.focus();
-                    }
+                function openSearch() {
+                    document.getElementById('search-overlay').classList.add('active');
+                    setTimeout(() => document.getElementById('search-overlay-input').focus(), 100);
                 }
+
+                function closeSearch() {
+                    document.getElementById('search-overlay').classList.remove('active');
+                }
+
+                // Close on ESC
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') closeSearch();
+                });
             </script>
 
             <div class="social-nav">
@@ -134,7 +213,7 @@
 
     <footer class="watermark-footer">
         <div class="footer-content">
-            <p>&copy; 2026 <b>SERHAT ÇAM</b>. Crafted with <b>Django</b> & Passion.</p>
+            <p>&copy; 2026 <b>{% if site %}{{ site.footer_copyright }}{% else %}SERHAT ÇAM{% endif %}</b>. {% if site %}{{ site.footer_tagline }}{% else %}Crafted with <b>Django</b> & Passion.{% endif %}</p>
         </div>
     </footer>
 </body>

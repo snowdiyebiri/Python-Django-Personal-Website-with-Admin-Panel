@@ -14,37 +14,33 @@ PATHS = [
     "admin-preview/",
 ]
 
-# Add projects dynamically if possible, or use the known IDs
-PROJECT_IDS = [4, 5, 6, 7, 8, 9]
-for pid in PROJECT_IDS:
-    PATHS.append(f"projects/{pid}/")
+# Add projects dynamically if possible, or use the known slugs
+PROJECT_SLUGS = ['e-commerce-api', 'ai-image-generator', 'task-management-system', 'portfolio-template', 'finance-tracker', 'blog-platform']
+for slug in PROJECT_SLUGS:
+    PATHS.append(f"projects/{slug}/")
 
 def get_relative_prefix(path_str):
     if not path_str or path_str == "":
-        return "./"
-    depth = path_str.strip("/").count("/")
-    if depth == 0:
-        return "./"
+        return ""
+    depth = path_str.strip("/").count("/") + 1
     return "../" * depth
 
 def fix_links(html, current_path):
     prefix = get_relative_prefix(current_path)
-    # Ensure prefix doesn't have extra slashes
-    clean_prefix = prefix.replace("./", "")
-    
-    # Fix static and media links
-    html = html.replace('href="/static/', f'href="{clean_prefix}static/')
-    html = html.replace('src="/static/', f'src="{clean_prefix}static/')
-    html = html.replace('href="/media/', f'href="{clean_prefix}media/')
-    html = html.replace('src="/media/', f'src="{clean_prefix}media/')
+    # Fix static and media
+    html = html.replace('href="/static/', f'href="{prefix}static/')
+    html = html.replace('src="/static/', f'src="{prefix}static/')
+    html = html.replace('href="/media/', f'href="{prefix}media/')
+    html = html.replace('src="/media/', f'src="{prefix}media/')
     
     # Fix internal links
+    # This is a bit naive but should work for this project's simple URLs
     for p in PATHS:
         old_link = f'href="/{p}"'
-        new_link = f'href="{clean_prefix}{p}index.html"'
+        new_link = f'href="{prefix}{p}index.html"'
         if p == "":
              old_link = 'href="/"'
-             new_link = f'href="{clean_prefix}index.html"'
+             new_link = f'href="{prefix}index.html"'
         html = html.replace(old_link, new_link)
         
     return html
@@ -74,8 +70,12 @@ def main():
 
     # Copy static and media
     print("Copying assets...")
+    if os.path.exists(OUTPUT_DIR / "static"):
+        shutil.rmtree(OUTPUT_DIR / "static")
     shutil.copytree("static", OUTPUT_DIR / "static")
     if Path("media").exists():
+        if (OUTPUT_DIR / "media").exists():
+            shutil.rmtree(OUTPUT_DIR / "media")
         shutil.copytree("media", OUTPUT_DIR / "media")
 
     # Add .nojekyll

@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from projects.models import Project, SkillCategory, HeroContent, AboutContent, Stat, SocialLink, ThemeSettings, Reference
+from projects.models import Project, SkillCategory, HeroContent, AboutContent, Stat, SocialLink, ThemeSettings, Reference, SiteConfiguration
 
 def get_base_context(request):
     return {
         'social_links': SocialLink.objects.all(),
-        'theme': ThemeSettings.objects.filter(is_active=True).first()
+        'theme': ThemeSettings.objects.filter(is_active=True).first(),
+        'all_themes': ThemeSettings.objects.all(),
+        'site': SiteConfiguration.objects.filter(is_active=True).first()
     }
 
 def home(request):
@@ -34,9 +36,11 @@ def home(request):
 
 def about(request):
     about_content = AboutContent.objects.filter(is_active=True).first()
+    project_count = Project.objects.count()
     context = get_base_context(request)
     context.update({
-        'about': about_content
+        'about': about_content,
+        'project_count': project_count,
     })
     return render(request, 'pages/about.html', context)
 

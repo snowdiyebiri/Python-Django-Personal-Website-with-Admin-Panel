@@ -1,11 +1,19 @@
 from django.db import models
+from django.core.validators import FileExtensionValidator
+from django.utils.text import slugify
 
 class Project(models.Model):
     title = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=120, unique=True, blank=True)
     description = models.TextField()
     technology = models.CharField(max_length=100)
     image = models.ImageField(upload_to='project_images/')
     link = models.URLField(blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -48,6 +56,8 @@ class AboutContent(models.Model):
     subtitle = models.CharField(max_length=200)
     summary = models.TextField()
     biography = models.TextField()
+    image = models.ImageField(upload_to='about/', blank=True, null=True)
+    years_of_experience = models.IntegerField(default=1)
     is_active = models.BooleanField(default=True)
 
     class Meta:
@@ -98,10 +108,19 @@ class ThemeSettings(models.Model):
     ]
 
     name = models.CharField(max_length=50, default="Default Dark")
-    bg_color = models.CharField(max_length=7, default="#0c0c0e")
-    accent_color = models.CharField(max_length=7, default="#a78bfa")
-    card_color = models.CharField(max_length=7, default="#161619")
-    text_color = models.CharField(max_length=7, default="#f4f4f5")
+    bg_color = models.CharField(max_length=7, default="#0c0c0e", help_text="Dark mode background color")
+    accent_color = models.CharField(max_length=7, default="#a78bfa", help_text="Dark mode accent color")
+    card_color = models.CharField(max_length=7, default="#161619", help_text="Dark mode card color")
+    text_color = models.CharField(max_length=7, default="#f4f4f5", help_text="Dark mode primary text color")
+    text_secondary_color = models.CharField(max_length=7, default="#a1a1aa", help_text="Dark mode secondary text color")
+    
+    # Light Mode Colors
+    light_bg_color = models.CharField(max_length=7, default="#fafafa", help_text="Light mode background color")
+    light_accent_color = models.CharField(max_length=7, default="#8b5cf6", help_text="Light mode accent color")
+    light_card_color = models.CharField(max_length=7, default="#ffffff", help_text="Light mode card color")
+    light_text_color = models.CharField(max_length=7, default="#111827", help_text="Light mode primary text color")
+    light_text_secondary_color = models.CharField(max_length=7, default="#4b5563", help_text="Light mode secondary text color")
+    light_bg_pattern_color = models.CharField(max_length=7, default="#e5e7eb", help_text="Light mode pattern color")
     
     bg_pattern = models.CharField(max_length=10, choices=PATTERN_CHOICES, default='dots')
     bg_pattern_color = models.CharField(max_length=7, default="#ffffff", help_text="Color for the grid/dots")
@@ -114,8 +133,8 @@ class ThemeSettings(models.Model):
     is_active = models.BooleanField(default=True)
     
     # Brand Elements
-    logo = models.ImageField(upload_to='logos/', blank=True, null=True, help_text="Upload a custom logo for the navigation bar")
-    favicon = models.ImageField(upload_to='favicons/', blank=True, null=True, help_text="Upload a custom browser icon (favicon)")
+    logo = models.FileField(upload_to='logos/', blank=True, null=True, validators=[FileExtensionValidator(['png', 'jpg', 'jpeg', 'svg'])], help_text="Upload a custom logo (PNG, JPG, or SVG)")
+    favicon = models.FileField(upload_to='favicons/', blank=True, null=True, validators=[FileExtensionValidator(['png', 'jpg', 'jpeg', 'svg', 'ico'])], help_text="Upload a custom browser icon (PNG, JPG, SVG, ICO)")
     
     # Animation Controls
     anim_speed = models.FloatField(default=0.6, help_text="Animation duration in seconds (e.g., 0.6)")
@@ -126,3 +145,61 @@ class ThemeSettings(models.Model):
 
     def __str__(self):
         return self.name
+
+class SiteConfiguration(models.Model):
+    # Layout Settings
+    container_width = models.IntegerField(default=1200, help_text="Maximum width of the website container (px)")
+    grid_column_width = models.IntegerField(default=320, help_text="Minimum width of grid items (px)")
+    card_border_radius = models.IntegerField(default=24, help_text="Border radius for cards (px)")
+    glass_blur = models.IntegerField(default=15, help_text="Blur intensity for glass effects (px)")
+    
+    # Spacing Settings
+    nav_padding_y = models.FloatField(default=0.8, help_text="Vertical padding for the navbar (rem)")
+    section_padding_y = models.FloatField(default=3.0, help_text="Vertical padding for sections (rem)")
+    hero_gap = models.FloatField(default=1.0, help_text="Gap between elements in the hero section (rem)")
+    container_padding_top = models.FloatField(default=2.0, help_text="Top padding for the main container (rem)")
+
+    logo_part_1 = models.CharField(max_length=50, default="PORT")
+    logo_part_2 = models.CharField(max_length=50, default="FOLIO")
+    
+    # Navigation
+    nav_home = models.CharField(max_length=50, default="Home")
+    nav_projects = models.CharField(max_length=50, default="Projects")
+    nav_about = models.CharField(max_length=50, default="About")
+    nav_references = models.CharField(max_length=50, default="References")
+    nav_admin = models.CharField(max_length=50, default="Admin")
+    nav_contact = models.CharField(max_length=50, default="Contact")
+    
+    # Footer
+    footer_copyright = models.CharField(max_length=100, default="SERHAT ÇAM")
+    footer_tagline = models.CharField(max_length=200, default="Crafted with Django & Passion.")
+    
+    # Section Titles
+    projects_title_prefix = models.CharField(max_length=50, default="All")
+    projects_title_highlight = models.CharField(max_length=50, default="Projects")
+    
+    contact_title_prefix = models.CharField(max_length=50, default="Get in")
+    contact_title_highlight = models.CharField(max_length=50, default="Touch")
+    contact_description = models.TextField(default="Have a project in mind or just want to say hi? Drop me a message below.")
+    
+    references_title_prefix = models.CharField(max_length=50, default="Kind")
+    references_title_highlight = models.CharField(max_length=50, default="Words")
+    
+    skills_title_prefix = models.CharField(max_length=50, default="Expertise")
+    skills_title_highlight = models.CharField(max_length=50, default="& Tech")
+    skills_sub_label = models.CharField(max_length=50, default="My Skills")
+
+    # Contact Info
+    contact_email = models.EmailField(default="hello@example.com")
+    contact_phone = models.CharField(max_length=50, default="+1 (234) 567-890")
+    contact_location = models.CharField(max_length=100, default="New York, USA")
+    contact_social_text = models.CharField(max_length=100, default="Follow me on social media")
+
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "Site Configuration"
+        verbose_name_plural = "Site Configuration"
+
+    def __str__(self):
+        return "Site Configuration"
