@@ -2,59 +2,61 @@
 
 A modern, highly customizable personal portfolio website built with Python/Django. Features an extensive admin panel that allows full control over branding, themes, global layout, and content without touching code.
 
-## Key Features
+## Repository URL
+[https://github.com/snowdiyebiri/Python-Django-Personal-Website-with-Admin-Panel](https://github.com/snowdiyebiri/Python-Django-Personal-Website-with-Admin-Panel)
 
-- **Dynamic Theme Management:** Switch between pre-defined color schemes (Modern Dark, Midnight Deep, Emerald Forest, Soft Rose) or create your own.
-- **Global Layout Control:** Adjust container widths, navbar spacing, hero section gaps, and section paddings globally from the admin panel.
-- **Content Management:** Easily update your bio, project details, skills, references, and contact information through a clean, intuitive Django Admin.
-- **Modern UI:** Built with modern CSS (glassmorphism, interactive stacks, typewriter effects) and optimized for responsiveness.
-- **Static Site Generation:** Includes a generator script for publishing to GitHub Pages or similar static hosting.
+## Features
+- **Dynamic Theme Management:** Switch between pre-defined color schemes or create your own.
+- **Global Layout Control:** Adjust spacing, container widths, and gaps globally from the admin panel.
+- **Admin-Driven Content:** Manage your bio, projects, skills, and contact info directly in the Django Admin.
+- **Static Export:** Fully exportable as a static site for GitHub Pages or other hosting services.
 
-## Admin Panel Customization
-
-The project uses a powerful **Site Configuration** and **Theme Settings** system:
-- **Theme Settings:** Customize primary/secondary colors for both Dark and Light modes, backgrounds, patterns (dots/grid), and animations.
-- **Site Configuration:** Globally manage layout spacing, container sizes, navbar/footer text, and navigation links.
-
-## Prerequisites
-
-- Python 3.x
-- Django 6.0+
-
-## Getting Started
+## Setup Instructions
 
 1. **Clone the repository:**
    ```bash
-   git clone [<repository-url>](https://github.com/snowdiyebiri/Python-Django-Personal-Website-with-Admin-Panel)
-   cd Python-Django-Personal-Website-with-Admin-Panel)
+   git clone https://github.com/snowdiyebiri/Python-Django-Personal-Website-with-Admin-Panel.git
+   cd Python-Django-Personal-Website-with-Admin-Panel
    ```
 
-2. **Install dependencies:**
+2. **Create and activate a virtual environment:**
+   - **Windows:**
+     ```bash
+     python -m venv venv
+     .\venv\Scripts\activate
+     ```
+   - **macOS/Linux:**
+     ```bash
+     python3 -m venv venv
+     source venv/bin/activate
+     ```
+
+3. **Install dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Run Migrations:**
+4. **Run migrations:**
    ```bash
    python manage.py migrate
    ```
 
-4. **Start the development server:**
+5. **Start the development server:**
    ```bash
    python manage.py runserver
    ```
+   Access the site at `http://127.0.0.1:8000` and the Admin panel at `http://127.0.0.1:8000/admin`.
 
-5. **Access the Admin Panel:**
-   Navigate to `/admin` to start customizing your theme and content.
-
-## Generating Static Files
+## Deploying to GitHub Pages
 
 To export your site as a static build for deployment:
 ```bash
 python generate_static.py
 ```
-Generated files are saved in the `docs/` directory.
-
-## Architecture Highlights
-- **Dynamic Themes:** Uses custom template tags and filters (`hex_to_rgb`) to generate dynamic CSS variables on the fly.
-- **Global Layout:** Spacing logic is decoupled from individual themes to ensure structural consistency across all color schemes.
+This will generate the site in the `docs/` folder. Commit and push these changes to your `main` branch:
+```bash
+git add docs/
+git commit -m "Deploy static site"
+git push origin main
+```
+*Ensure your GitHub repository settings are configured to serve pages from the `/docs` folder.*
