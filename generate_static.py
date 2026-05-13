@@ -25,22 +25,40 @@ PROJECT_SLUGS = ['e-commerce-api', 'ai-image-generator', 'task-management-system
 for slug in PROJECT_SLUGS:
     PATHS.append(f"projects/{slug}/")
 
-def fix_links(html):
-    # Fix static and media: remove leading slash for relative paths
-    html = html.replace('href="/static/', 'href="static/')
-    html = html.replace('src="/static/', 'src="static/')
-    html = html.replace('href="/media/', 'href="media/')
-    html = html.replace('src="/media/', 'src="media/')
+def get_relative_prefix(path_str):
+    if not path_str or path_str == "":
+        return ""
+    # Count levels of depth to reach root from path_str
+    # e.g., projects/ai-image-generator/ -> depth 2, need ../../
+    depth = path_str.strip("/").count("/")
+    if depth == 0:
+        return "./"
+    return "../" * depth
+
+def fix_links(html, current_path):
+    prefix = get_relative_prefix(current_path)
+    
+    # Fix static and media using the calculated depth prefix
+    html = html.replace('href="/static/', f'href="{prefix}static/')
+    html = html.replace('src="/static/', f'src="{prefix}static/')
+    html = html.replace('href="/media/', f'href="{prefix}media/')
+    html = html.replace('src="/media/', f'src="{prefix}media/')
     
     # Fix internal links
     for p in PATHS:
         old_link = f'href="/{p}"'
-        target = f"{p}index.html"
-        new_link = f'href="{target}"'
+        # The path of the target file relative to root
+        target = f"{p}index.html" if p else "index.html"
         
+        # Calculate relative path from current_path to target
+        # e.g., from projects/ai-image-generator/ to about/index.html is ../../about/index.html
+        rel_path = os.path.relpath(target, current_path.strip("/") if current_path else ".")
+        rel_path = rel_path.replace(os.sep, '/')
+        
+        new_link = f'href="{rel_path}"'
         if p == "":
             old_link = 'href="/"'
-            new_link = 'href="index.html"'
+            new_link = f'href="{rel_path}"'
             
         html = html.replace(old_link, new_link)
         
@@ -56,7 +74,7 @@ def main():
         try:
             with urllib.request.urlopen(url) as response:
                 html = response.read().decode('utf-8')
-                html = fix_links(html)
+                html = fix_links(html, path)
                 target_dir = OUTPUT_DIR / path
                 target_dir.mkdir(parents=True, exist_ok=True)
                 with open(target_dir / "index.html", "w", encoding="utf-8") as f:
