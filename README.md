@@ -13,7 +13,7 @@ A modern, highly customizable personal portfolio website built with Python/Djang
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/snowdiyebiri/Python-Django-Personal-Website-with-Admin-Panel.git
+   git clone https://github.com/serhatcamm/Python-Django-Personal-Website-with-Admin-Panel.git
    cd Python-Django-Personal-Website-with-Admin-Panel
    ```
 
