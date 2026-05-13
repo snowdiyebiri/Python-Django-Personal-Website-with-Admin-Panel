@@ -1,73 +1,60 @@
-# 🚀 Modern Django Portfolio Template | Dynamic & SEO-Friendly
+# Dynamic Django Portfolio Website
 
-**Live Demo:** [https://snowdiyebiri.github.io/Python-Django-Personal-Website-with-Admin-Panel/](https://snowdiyebiri.github.io/Python-Django-Personal-Website-with-Admin-Panel/)
+A modern, highly customizable personal portfolio website built with Python/Django. Features an extensive admin panel that allows full control over branding, themes, global layout, and content without touching code.
 
-A professional, high-performance personal portfolio website built with **Django 6.0**. This template is designed for developers, designers, and makers who want a fully manageable, aesthetically pleasing online presence.
+## Key Features
 
-## ✨ Key Features
+- **Dynamic Theme Management:** Switch between pre-defined color schemes (Modern Dark, Midnight Deep, Emerald Forest, Soft Rose) or create your own.
+- **Global Layout Control:** Adjust container widths, navbar spacing, hero section gaps, and section paddings globally from the admin panel.
+- **Content Management:** Easily update your bio, project details, skills, references, and contact information through a clean, intuitive Django Admin.
+- **Modern UI:** Built with modern CSS (glassmorphism, interactive stacks, typewriter effects) and optimized for responsiveness.
+- **Static Site Generation:** Includes a generator script for publishing to GitHub Pages or similar static hosting.
 
-- **🎨 Dynamic Theme Engine:** Change your entire site's look (colors, background patterns, animations) via the Admin Panel.
-- **🔍 Global Search:** Filter projects and content using dynamic search with Django `Q` objects.
-- **🖼️ Logo & Favicon Support:** Upload your custom branding directly through the theme settings.
-- **📱 Responsive Hero Section:** Interactive project stack and cycling professional titles.
-- **📂 Automated Project Showcase:** All your projects are automatically synced and displayed in the hero and project sections.
-- **📊 Animated Statistics:** Showcase your impact with dynamic, animated counter stats.
-- **📩 Integrated Contact System:** Functional form that saves messages to your private dashboard.
-- **🛡️ Security Hardened:** Pre-configured for production with SSL, HSTS, and XSS protections.
+## Admin Panel Customization
 
-## 🛠️ Tech Stack
+The project uses a powerful **Site Configuration** and **Theme Settings** system:
+- **Theme Settings:** Customize primary/secondary colors for both Dark and Light modes, backgrounds, patterns (dots/grid), and animations.
+- **Site Configuration:** Globally manage layout spacing, container sizes, navbar/footer text, and navigation links.
 
-- **Backend:** Python 3.14+, Django 6.0.5
-- **Frontend:** Vanilla CSS (Modern CSS Variables), FontAwesome 6.0
-- **Storage:** SQLite (Development), Media Support for Images/SVGs
-- **Deployment:** Optimized for GitHub Pages (via included static generator)
+## Prerequisites
 
-## 🏁 Quick Start
+- Python 3.x
+- Django 6.0+
 
-### 1. Installation
+## Getting Started
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd <project-directory>
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Run Migrations:**
+   ```bash
+   python manage.py migrate
+   ```
+
+4. **Start the development server:**
+   ```bash
+   python manage.py runserver
+   ```
+
+5. **Access the Admin Panel:**
+   Navigate to `/admin` to start customizing your theme and content.
+
+## Generating Static Files
+
+To export your site as a static build for deployment:
 ```bash
-git clone https://github.com/snowdiyebiri/Python-Django-Personal-Website-with-Admin-Panel.git
-cd Python-Django-Personal-Website-with-Admin-Panel
-python -m venv venv
-
-# Activate Virtual Environment:
-# Windows Command Prompt:
-.\venv\Scripts\activate
-# PowerShell:
-.\venv\Scripts\Activate.ps1
-
-pip install -r requirements.txt
+python generate_static.py
 ```
+Generated files are saved in the `docs/` directory.
 
-### 2. Setup
-```bash
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
-```
-
-### 3. Personalization
-Access the **Command Center** at `/admin/` to:
-- Create your **Theme** (Colors, Patterns, Logo).
-- Update your **Hero Content** (Name, Bio, Titles).
-- Add your **Projects** and **Social Links**.
-
-## 🌐 Static Deployment (GitHub Pages)
-
-This project includes a built-in static crawler to export your dynamic Django site into a GitHub-ready format.
-
-1. Run the local server: `python manage.py runserver`
-2. Generate static files: `python generate_static.py`
-3. Push the `docs/` folder to GitHub and set your Pages source to `/docs`.
-
-*Note: Search and Contact form functionality require the Django backend and will not process data in the static version.*
-
-
-- `config/`: System core & security settings.
-- `projects/`: The engine behind projects, themes, and branding.
-- `pages/`: Dynamic views for Home and About.
-- `contact/`: Messaging logic and admin API.
-- `docs/`: The generated static version of the site.
-
----
-*Crafted with 💜 by **SERHAT ÇAM***
+## Architecture Highlights
+- **Dynamic Themes:** Uses custom template tags and filters (`hex_to_rgb`) to generate dynamic CSS variables on the fly.
+- **Global Layout:** Spacing logic is decoupled from individual themes to ensure structural consistency across all color schemes.
