@@ -26,21 +26,21 @@ for slug in PROJECT_SLUGS:
     PATHS.append(f"projects/{slug}/")
 
 def fix_links(html):
-    # Fix static and media: point to root-relative path
-    html = html.replace('href="/static/', 'href="/static/')
-    html = html.replace('src="/static/', 'src="/static/')
-    html = html.replace('href="/media/', 'href="/media/')
-    html = html.replace('src="/media/', 'src="/media/')
+    # Fix static and media: remove leading slash for relative paths
+    html = html.replace('href="/static/', 'href="static/')
+    html = html.replace('src="/static/', 'src="static/')
+    html = html.replace('href="/media/', 'href="media/')
+    html = html.replace('src="/media/', 'src="media/')
     
     # Fix internal links
     for p in PATHS:
         old_link = f'href="/{p}"'
-        target = f"/{p}index.html"
+        target = f"{p}index.html"
         new_link = f'href="{target}"'
         
         if p == "":
             old_link = 'href="/"'
-            new_link = 'href="/index.html"'
+            new_link = 'href="index.html"'
             
         html = html.replace(old_link, new_link)
         
