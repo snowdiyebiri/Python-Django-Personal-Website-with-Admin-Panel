@@ -2,6 +2,7 @@
 
 A modern, highly customizable personal portfolio website built with Python/Django. Features an extensive admin panel that allows full control over branding, themes, global layout, and content without touching code.
 
+LIVE DEMO: https://serhatcamm.github.io/Python-Django-Personal-Website-with-Admin-Panel/
 
 ## Features
 - **Dynamic Theme Management:** Switch between pre-defined color schemes or create your own.
